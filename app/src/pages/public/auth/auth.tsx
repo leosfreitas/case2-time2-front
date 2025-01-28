@@ -9,13 +9,27 @@ import { UserRegister } from './nested/userRegister/register';
 
 export const Auth = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    const backRoutes: { [key: string]: string } = {
+        "/auth/select": "/home",
+        "/auth/admin": "/auth/select",
+        "/auth/user": "/auth/select",
+        "/auth/register": "/auth/user",
+    };
+
+    const handleBack = () => {
+        const currentPath: string = location.pathname;
+        const backPath = backRoutes[currentPath] || "/home"; 
+        navigate(backPath);
+    };
 
     return (
         <div className="relative w-screen h-screen overflow-hidden">
             <Video />
         <button
             className="absolute top-4 left-4 text-white hover:text-gray-300 z-10"
-            onClick={() => navigate(-1)}
+            onClick={handleBack}
         >
             <CaretDoubleLeft size={128} />
         </button>
@@ -26,7 +40,7 @@ export const Auth = () => {
                     <Route path="select" element={<SelectLogin />}/>
                     <Route path="admin" element={<AdminLogin />}/>
                     <Route path="user" element={<UserLogin />}/>
-                    <Route path="user/register" element={<UserRegister />}/>
+                    <Route path="register" element={<UserRegister />}/>
                 </Routes>
 
                 <div className="text-white mb-[10vh] ml-[18vh]">

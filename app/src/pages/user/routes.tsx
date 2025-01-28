@@ -29,7 +29,7 @@ const routes: RouteObject[] = [
         await checkToken();
         return null;
       } catch (error) {
-        return redirect('/user/auth/login');
+        return redirect('/auth/login/select');
       }
     },
     children: [

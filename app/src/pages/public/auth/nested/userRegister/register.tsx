@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import { CaretDoubleLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
-import { Video } from '@/pages/public/main/components/video';
 import { registerRequest } from './api/register';
 
 export const UserRegister = () => {
@@ -43,7 +41,7 @@ export const UserRegister = () => {
             });
 
             toast.success('Cadastro realizado com sucesso!');
-            setTimeout(() => navigate('/user/auth/login'), 2000);
+            setTimeout(() => navigate('/auth/user'), 2000);
         } catch (error) {
             toast.error('Erro ao realizar o cadastro. Tente novamente.');
         }
@@ -184,7 +182,7 @@ export const UserRegister = () => {
             <p className="mt-6 text-center text-sm text-gray-600">
                 Já tem uma conta?{' '}
                 <a
-                    href="/user/auth/login"
+                    href="/auth/user"
                     className="font-medium text-[#3c50e0] hover:underline"
                 >
                     Faça login

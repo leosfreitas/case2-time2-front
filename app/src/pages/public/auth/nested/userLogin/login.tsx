@@ -75,7 +75,7 @@ export const UserLogin = () => {
             <p className="mt-6 text-center text-sm text-gray-600">
                 Não tem uma conta?{' '}
                 <a
-                    href="/user/auth/register"
+                    href="/auth/register"
                     className="font-medium text-[#3c50e0] hover:underline"
                 >
                     Cadastre-se

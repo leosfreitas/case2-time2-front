@@ -12,7 +12,7 @@ export const Menu = () => {
             await logout();
             toast.dismiss();
             toast.success("Logout realizado com sucesso!");
-            window.location.href = '/auth/login/select'; 
+            window.location.href = '/auth/select'; 
         } catch (error) {
             toast.dismiss(); 
             toast.error("Não foi possível realizar o logout. Tente novamente.");

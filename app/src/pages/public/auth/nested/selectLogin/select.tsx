@@ -10,13 +10,13 @@ export const SelectLogin = () => {
             </h2>
             <button
                 className="w-full bg-black text-white py-3 rounded-lg mb-4 hover:bg-gray-800"
-                onClick={() => navigate('/auth/login/user')} 
+                onClick={() => navigate('/auth/user')} 
             >
                 PARA CLIENTES
             </button>
             <button
                 className="w-full bg-black text-white py-3 rounded-lg hover:bg-gray-800"
-                onClick={() => navigate('/auth/login/admin')}
+                onClick={() => navigate('/auth/admin')}
             >
                 PARA FUNCIONÁRIOS
             </button>

@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { headerItems } from "../constants/header-items";
+import { useNavigate } from "react-router-dom";
 
 export const Header = () => {
+    const navigate = useNavigate();
+
     return (
         <HeaderStyles>
             <div className="logo">
@@ -16,7 +19,7 @@ export const Header = () => {
                     </Link>
                 ))}
             </nav>
-            <button className="login-button" onClick={() => (window.location.href = '/auth/login/select')}>
+            <button className="login-button" onClick= {() => navigate('/auth/select')}>
                 Login
             </button>
         </HeaderStyles>
