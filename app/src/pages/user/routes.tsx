@@ -13,17 +13,6 @@ import { checkToken } from './auth/token/api/CheckToken';
 
 const routes: RouteObject[] = [
   {
-    path: "/",
-    loader: async () => {
-      try {
-        await checkToken(); 
-        return redirect('/user/dashboard'); 
-      } catch (error) {
-        return redirect('/user/auth/login'); 
-      }
-    },
-  },
-  {
     path: "user/auth/login",
     element: <Login />,
     id: "login",
