@@ -16,7 +16,7 @@ export const Header = () => {
                     </Link>
                 ))}
             </nav>
-            <button className="login-button" onClick={() => (window.location.href = '/login')}>
+            <button className="login-button" onClick={() => (window.location.href = '/auth/login/select')}>
                 Login
             </button>
         </HeaderStyles>

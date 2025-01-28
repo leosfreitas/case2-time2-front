@@ -1,5 +1,4 @@
 import { redirect, RouteObject } from 'react-router-dom';
-import { AdminLogin } from './auth/login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { checkToken } from './auth/token/api/CheckToken';
 import { Home } from './dashboard/nested/home/homepage';
@@ -9,11 +8,6 @@ import { Pacotes } from './dashboard/nested/pacotes/pacotes';
 import { Sac } from './dashboard/nested/sac/sac';
 
 const routes: RouteObject[] = [
-  {
-    path: "admin/auth/login",
-    element: <AdminLogin />,
-    id: "admin-login",
-  },
 //   {
 //     path: "admin/auth/pwd/recovery/email",
 //     element: <RequestPasswordReset />,

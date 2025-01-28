@@ -1,7 +1,5 @@
 import { redirect, RouteObject } from 'react-router-dom';
 import { Dashboard } from './dashboard/dashboard';
-import { UserLogin } from './auth/login/login';
-import { Register } from './auth/register/register';
 import { RequestPasswordReset } from './auth/reset-password/RequestPasswordReset';
 import { PasswordReset } from './auth/reset-password/PasswordReset';
 import { Home } from './dashboard/nested/home/homepage';
@@ -11,16 +9,6 @@ import { Contato } from './dashboard/nested/contato/contato';
 import { Pacotes } from './dashboard/nested/pacotes/pacotes';
 
 const routes: RouteObject[] = [
-  {
-    path: "user/auth/login",
-    element: <UserLogin />,
-    id: "user-login",
-  },
-  {
-    path: "user/auth/register",
-    element: <Register />,
-    id: "register",
-  },
   {
     path: "user/auth/pwd/recovery/email",
     element: <RequestPasswordReset />,
