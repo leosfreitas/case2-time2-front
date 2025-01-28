@@ -3,6 +3,10 @@ import { AdminLogin } from './auth/login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { checkToken } from './auth/token/api/CheckToken';
 import { Home } from './dashboard/nested/home/homepage';
+import { Profile } from './dashboard/nested/profile/profile';
+import { Contato } from './dashboard/nested/contato/contato';
+import { Pacotes } from './dashboard/nested/pacotes/pacotes';
+import { Sac } from './dashboard/nested/sac/sac';
 
 const routes: RouteObject[] = [
   {
@@ -20,7 +24,6 @@ const routes: RouteObject[] = [
 //     element: <PasswordReset />,
 //     id: "password-reset",
 //   },
-
   {
     path: "admin/dashboard",
     element: <Dashboard />,
@@ -42,7 +45,27 @@ const routes: RouteObject[] = [
         path: "home",
         element: <Home />,
         id: "admin-home",
-      }
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+        id: "admin-profile",
+      },
+      {
+        path: "contato",
+        element: <Contato />,
+        id: "admin-contato",
+      },
+      {
+        path: "pacotes",
+        element: <Pacotes />,
+        id: "admin-pacotes",
+      },
+      {
+        path: "sac",
+        element: <Sac />,
+        id: "admin-sac",
+      },
     ],
   },
 ];

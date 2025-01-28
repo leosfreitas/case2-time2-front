@@ -3,6 +3,10 @@ import { Header } from './components/header';
 import { Menu } from './components/menu';
 import styled from 'styled-components';
 import { Home } from './nested/home/homepage';
+import { Profile } from './nested/profile/profile';
+import { Contato } from './nested/contato/contato';
+import { Pacotes } from './nested/pacotes/pacotes';
+import { Sac } from './nested/sac/sac';
 
 export const Dashboard = () => {
     return (
@@ -11,6 +15,10 @@ export const Dashboard = () => {
             <Menu/>
             <Routes>
                 <Route path="home" element={<Home />}/>
+                <Route path="profile" element={<Profile />}/>
+                <Route path="contato" element={<Contato />}/>
+                <Route path="pacotes" element={<Pacotes />}/>
+                <Route path="sac" element={<Sac />}/>
             </Routes>
         </DashboardStyles>
     )

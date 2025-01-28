@@ -1,8 +1,7 @@
 import { redirect, RouteObject } from 'react-router-dom';
 import { Home } from './main/nested/home/home';
 import { About } from './main/nested/about/about';
-import { Clients } from './main/nested/clients/clients';
-import { Company } from './main/nested/company/company';
+import { Services } from './main/nested/clients/services';
 import { Contact } from './main/nested/contact/contact';
 import { PublicLogin } from './auth/publicLogin';
 
@@ -16,12 +15,8 @@ const routes: RouteObject[] = [
     element: <About />,
   },
   {
-    path: "/clients",
-    element: <Clients />,
-  },
-  {
-    path: "/company",
-    element: <Company />,
+    path: "/services",
+    element: <Services />,
   },
   {
     path: "/contact",

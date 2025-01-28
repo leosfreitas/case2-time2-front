@@ -8,12 +8,8 @@ export const headerItems = [
         href: '/about',
     },
     {
-        label: 'Para Clientes',
-        href: '/clients',
-    },
-    {
-        label: 'Para Empresas',
-        href: '/company',
+        label: 'Serviços',
+        href: '/services',
     },
     {
         label: 'Contato',
