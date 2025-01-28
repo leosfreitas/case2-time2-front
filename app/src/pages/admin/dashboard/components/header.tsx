@@ -18,7 +18,10 @@ export function Header() {
   const routeLabels: Record<string, string> = {
     dashboard: "Dashboard",
     home: "Página Inicial",
+    finances: "Finanças",
+    budget: "Orçamento",
     profile: "Perfil",
+    history: "Histórico",
   };
 
   const capitalizeFirstLetter = (string: string): string =>

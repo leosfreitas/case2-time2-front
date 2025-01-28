@@ -3,9 +3,9 @@ import { CaretDoubleLeft } from '@phosphor-icons/react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Video } from '@/pages/public/main/components/video';
-import { login } from './api/Login';
+import { login } from './api/login';
 
-export const UserLogin = () => {
+export const AdminLogin = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
@@ -14,7 +14,7 @@ export const UserLogin = () => {
         e.preventDefault();
         try {
             await login(email, password); 
-            navigate('/user/dashboard'); 
+            navigate('/admin/dashboard'); 
         } catch (error) {
             toast.error('Erro no login. Por favor, verifique suas credenciais.');
         }
@@ -33,7 +33,7 @@ export const UserLogin = () => {
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-end p-4">
                 <div className="bg-white rounded-xl shadow-lg p-6 w-[40vh] h-[45vh] ml-[15vh] -mb-[5vh]">
                     <h2 className="text-lg font-bold mb-4 text-black">
-                        Login para clientes
+                        Login para funcionários
                     </h2>
                     <form onSubmit={handleSubmit} className="space-y-5">
                         <div>
@@ -83,16 +83,6 @@ export const UserLogin = () => {
                             </button>
                         </div>
                     </form>
-
-                    <p className="mt-6 text-center text-sm text-gray-600">
-                        Não tem uma conta?{' '}
-                        <a
-                            href="/user/auth/register"
-                            className="font-medium text-[#3c50e0] hover:underline"
-                        >
-                            Cadastre-se
-                        </a>
-                    </p>
                 </div>
 
                 <div className="text-white mb-[10vh] ml-[18vh]">

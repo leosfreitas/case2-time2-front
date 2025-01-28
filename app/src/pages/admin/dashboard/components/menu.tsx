@@ -1,7 +1,7 @@
 import { menuItems } from "../constants/menu-items";
 import styled from "styled-components";
 import { TrendUp } from "@phosphor-icons/react";
-import { logout } from '../../auth/logout/api/logout';
+import { logout } from "../../auth/logout/api/logout";
 import { SignOut } from '@phosphor-icons/react';
 import { toast } from "react-hot-toast";
 
@@ -12,7 +12,7 @@ export const Menu = () => {
             await logout();
             toast.dismiss();
             toast.success("Logout realizado com sucesso!");
-            window.location.href = '/user/auth/login'; 
+            window.location.href = '/admin/auth/login'; 
         } catch (error) {
             toast.dismiss(); 
             toast.error("Não foi possível realizar o logout. Tente novamente.");

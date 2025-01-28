@@ -1,21 +1,18 @@
 import { redirect, RouteObject } from 'react-router-dom';
 import { Dashboard } from './dashboard/dashboard';
-import { Login } from './auth/login/login';
+import { UserLogin } from './auth/login/login';
 import { Register } from './auth/register/register';
 import { RequestPasswordReset } from './auth/reset-password/RequestPasswordReset';
 import { PasswordReset } from './auth/reset-password/PasswordReset';
 import { Home } from './dashboard/nested/home/homepage';
 import { Profile } from './dashboard/nested/profile/profile';
-import { Finances } from './dashboard/nested/finances/finances';
-import { Budget } from './dashboard/nested/budget/budget';
-import { History } from './dashboard/nested/history/history';
 import { checkToken } from './auth/token/api/CheckToken';
 
 const routes: RouteObject[] = [
   {
     path: "user/auth/login",
-    element: <Login />,
-    id: "login",
+    element: <UserLogin />,
+    id: "user-login",
   },
   {
     path: "user/auth/register",
@@ -59,22 +56,7 @@ const routes: RouteObject[] = [
         path: "profile",
         element: <Profile />,
         id: "profile",
-      },
-      {
-        path: "finances",
-        element: <Finances />,
-        id: "finances",
-      },
-      {
-        path: "budget",
-        element: <Budget />,
-        id: "budget",
-      },
-      {
-        path: "history",
-        element: <History />,
-        id: "history",
-      },
+      }
     ],
   },
 ];
