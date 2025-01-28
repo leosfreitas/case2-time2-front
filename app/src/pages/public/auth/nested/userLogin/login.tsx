@@ -19,15 +19,15 @@ export const UserLogin = () => {
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-lg p-6 w-[40vh] h-[45vh] ml-[15vh] -mb-[5vh]">
-            <h2 className="text-lg font-bold mb-4 text-black">
+        <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-[40vh] h-auto space-y-6">
+            <h2 className="text-3xl font-bold text-center text-white">
                 Login para clientes
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-white"
                     >
                         Email
                     </label>
@@ -39,14 +39,14 @@ export const UserLogin = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="Digite seu email"
-                        className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
                 <div>
                     <label
                         htmlFor="password"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium text-white"
                     >
                         Senha
                     </label>
@@ -58,25 +58,25 @@ export const UserLogin = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         placeholder="Digite sua senha"
-                        className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
+                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
                 <div>
                     <button
                         type="submit"
-                        className="w-full rounded-md bg-[#3c50e0] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 ease-in-out hover:bg-[#324abc] focus:outline-none focus:ring-2 focus:ring-[#3c50e0] focus:ring-offset-1"
+                        className="w-full bg-[#0D2C40] text-white py-3 rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
                     >
                         Entrar
                     </button>
                 </div>
             </form>
 
-            <p className="mt-6 text-center text-sm text-gray-600">
+            <p className="mt-4 text-center text-base text-white">
                 Não tem uma conta?{' '}
                 <a
                     href="/auth/register"
-                    className="font-medium text-[#3c50e0] hover:underline"
+                    className="font-medium text-[#1D4A7C] hover:underline transition duration-300 ease-in-out"
                 >
                     Cadastre-se
                 </a>
