@@ -161,7 +161,10 @@ export const Contato = () => {
                   className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 cursor-pointer text-2xl"
                   open={expandedIndex === index}
                   onClick={(e) => {
-                    e.preventDefault(); // Evita que o <details> se comporte de forma automática
+                    if ((e.target as HTMLElement).tagName === "TEXTAREA" || (e.target as HTMLElement).tagName === "BUTTON") {
+                      e.stopPropagation(); // Impede que o evento de clique atinja o <details>
+                      return;
+                    }
                     setExpandedIndex(expandedIndex === index ? null : index);
                   }}
                 >

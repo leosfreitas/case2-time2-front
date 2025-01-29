@@ -28,7 +28,7 @@ const DashboardStyles = styled.div`
     display: grid;
     grid-template-columns: 300px 1fr; /* Largura da sidebar padrão */
     grid-template-rows: 100px 1fr;
-    height: 100%;
+    height: 100vh;
     width: 100vw;
     background-color: #eff3f7;
 

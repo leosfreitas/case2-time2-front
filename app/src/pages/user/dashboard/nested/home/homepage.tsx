@@ -5,11 +5,13 @@ import { Button } from "@/components/ui/button";
 import toast from "react-hot-toast";
 import { getMyAcordos } from "./api/acordos";
 import { deleteAcordo } from "./api/acordos";
+import { getPacoteAcordoDetail } from "./api/acordos";
 
 export const Home = () => {
   const [acordos, setAcordos] = useState<any[]>([]); // Lista de contratos
-  const [selectedAcordo, setSelectedAcordo] = useState<any | null>(null); // Contrato selecionado para exclusão
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Controle do Dialog de exclusão
+  const [selectedAcordo, setSelectedAcordo] = useState<any | null>(null); // Contrato selecionado para exclusão
+  const [pacoteDetalhes, setPacoteDetalhes] = useState<Record<string, any>>({}); // Cache de detalhes dos pacotes
 
   // Carregar os contratos do cliente ao montar o componente
   useEffect(() => {
@@ -17,11 +19,27 @@ export const Home = () => {
       try {
         const response = await getMyAcordos();
         setAcordos(response);
+
+        // Busca os detalhes dos pacotes
+        const detalhesPromises = response.map((acordo: any) =>
+          getPacoteAcordoDetail(acordo.pacote_id)
+        );
+
+        const detalhes = await Promise.all(detalhesPromises);
+
+        // Salvar os detalhes dos pacotes no estado
+        const detalhesMap = detalhes.reduce((acc: any, detalhe: any, index: number) => {
+          acc[response[index].pacote_id] = detalhe;
+          return acc;
+        }, {});
+
+        setPacoteDetalhes(detalhesMap);
       } catch (error) {
         console.error("Erro ao buscar acordos:", error);
         toast.error("Erro ao carregar contratos. Tente novamente.");
       }
     }
+
     fetchAcordos();
   }, []);
 
@@ -41,6 +59,13 @@ export const Home = () => {
 
       // Atualizar a lista de contratos após cancelamento
       setAcordos((prev) => prev.filter((acordo) => acordo._id !== selectedAcordo._id));
+
+      // Remover o pacote do cache de detalhes
+      setPacoteDetalhes((prev) => {
+        const updated = { ...prev };
+        delete updated[selectedAcordo.pacote_id];
+        return updated;
+      });
 
       // Fechar o dialog
       setIsDialogOpen(false);
@@ -62,25 +87,44 @@ export const Home = () => {
             Você ainda não possui contratos.
           </p>
         ) : (
-          acordos.map((acordo) => (
-            <Card
-              key={acordo._id}
-              className="p-6 shadow-lg border rounded-xl bg-white"
-            >
-              <h3 className="text-xl font-bold text-gray-900">Pacote ID: {acordo.pacote_id}</h3>
-              <p className="text-lg text-gray-700 mt-2">
-                <strong>Status:</strong> {acordo.status || "Ativo"}
-              </p>
-              <div className="mt-4 flex gap-4">
-                <Button
-                  className="bg-red-600 text-white hover:bg-red-700 w-full"
-                  onClick={() => handleCancelClick(acordo)}
-                >
-                  Cancelar
-                </Button>
-              </div>
-            </Card>
-          ))
+          acordos.map((acordo) => {
+            const pacote = pacoteDetalhes[acordo.pacote_id];
+            return (
+              <Card
+                key={acordo._id}
+                className="p-6 shadow-lg border rounded-xl bg-white"
+              >
+                {pacote ? (
+                  <>
+                    <h3 className="text-xl font-bold text-gray-900">{pacote.nome}</h3>
+                    <p className="text-lg text-gray-700 mt-2">
+                      <strong>Preço:</strong> R$ {pacote.preco}
+                    </p>
+                    <p className="text-lg text-gray-700 mt-2">
+                      <strong>Detalhes:</strong>{" "}
+                      {pacote.tipo.includes("Residencial") &&
+                        `Velocidade: ${pacote.detalhes.Residencial.velocidade}, Tipo: ${pacote.detalhes.Residencial.tipo}`}
+                      {pacote.tipo.includes("Movel") &&
+                        `Tamanho do Plano: ${pacote.detalhes.Movel.tamanho_do_plano}, Tipo: ${pacote.detalhes.Movel.tipo}`}
+                    </p>
+                  </>
+                ) : (
+                  <p>Carregando detalhes do pacote...</p>
+                )}
+                <p className="text-lg text-gray-700 mt-2">
+                  <strong>Status:</strong> {acordo.status || "Ativo"}
+                </p>
+                <div className="mt-4 flex gap-4">
+                  <Button
+                    className="bg-red-600 text-white hover:bg-red-700 w-full"
+                    onClick={() => handleCancelClick(acordo)}
+                  >
+                    Cancelar
+                  </Button>
+                </div>
+              </Card>
+            );
+          })
         )}
       </div>
 
@@ -93,8 +137,8 @@ export const Home = () => {
           {selectedAcordo && (
             <div className="mt-4">
               <p className="text-lg text-gray-800">
-                Tem certeza de que deseja cancelar o contrato do pacote com ID{" "}
-                <strong>{selectedAcordo.pacote_id}</strong>?
+                Tem certeza de que deseja cancelar o contrato do pacote{" "}
+                <strong>{pacoteDetalhes[selectedAcordo.pacote_id]?.nome || "Desconhecido"}</strong>?
               </p>
               <div className="mt-6 flex gap-4">
                 <Button
