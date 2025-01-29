@@ -48,15 +48,16 @@ export const UserRegister = () => {
     };
 
     return (
-        <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-8 w-[40vh] h-auto space-y-6">
-            <h2 className="text-3xl font-bold text-center text-white">
-                Cadastro de Cliente
+        <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[70vh] h-auto space-y-8">
+            <h2 className="text-4xl font-extrabold text-center text-white">
+                Cadastro
             </h2>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-8">
+                {/* Campo Nome */}
                 <div>
                     <label
                         htmlFor="name"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         Nome Completo
                     </label>
@@ -68,14 +69,15 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite seu nome completo"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
+                {/* Campo Email */}
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         Email
                     </label>
@@ -87,14 +89,15 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite seu email"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
+                {/* Campo CPF */}
                 <div>
                     <label
                         htmlFor="cpf"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         CPF
                     </label>
@@ -106,14 +109,15 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite seu CPF"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
+                {/* Campo Telefone */}
                 <div>
                     <label
                         htmlFor="phone"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         Telefone
                     </label>
@@ -125,14 +129,15 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite seu telefone"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
+                {/* Campo Senha */}
                 <div>
                     <label
                         htmlFor="password"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         Senha
                     </label>
@@ -144,14 +149,15 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite sua senha"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
+                {/* Campo Confirmar Senha */}
                 <div>
                     <label
                         htmlFor="confirmPassword"
-                        className="block text-sm font-medium text-white"
+                        className="block text-lg font-bold text-white"
                     >
                         Confirmar Senha
                     </label>
@@ -163,27 +169,27 @@ export const UserRegister = () => {
                         onChange={handleChange}
                         required
                         placeholder="Digite novamente sua senha"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
-                </div>
-
-                {error && <p className="text-sm text-red-600 mt-2">{error}</p>}
-
-                <div>
-                    <button
-                        type="submit"
-                        className="w-full bg-[#0D2C40] text-white py-3 rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
-                    >
-                        Cadastrar
-                    </button>
                 </div>
             </form>
 
-            <p className="mt-4 text-center text-base text-white">
+            {error && <p className="text-lg text-red-600 text-center mt-2">{error}</p>}
+
+            <div className="mt-6">
+                <button
+                    type="submit"
+                    className="w-full bg-[#0D2C40] text-white py-4 text-xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
+                >
+                    Cadastrar
+                </button>
+            </div>
+
+            <p className="text-2xl mt-6 text-center text-lg text-white">
                 Já tem uma conta?{' '}
                 <a
                     href="/auth/user"
-                    className="font-medium text-[#1D4A7C] hover:underline transition duration-300 ease-in-out"
+                    className="text-2xl text-[#0D2C40] hover:underline transition duration-300 ease-in-out"
                 >
                     Faça login
                 </a>

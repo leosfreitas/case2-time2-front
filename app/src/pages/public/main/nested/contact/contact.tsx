@@ -14,19 +14,22 @@ export const Contact = () => {
 
   const [sacs, setSacs] = useState<any[]>([]);
 
-  useEffect(() => {
-    async function fetchSacs() {
-      try {
-        const allSacs = await getAllSacs();
-        setSacs(allSacs.slice(0, 5));
-      } catch (error) {
-        console.error("Erro ao buscar SACs:", error);
-        toast.error("Ocorreu um erro ao buscar as perguntas. Tente novamente.");
-      }
+  async function fetchSacs() {
+    try {
+      const allSacs = await getAllSacs();
+      setSacs(allSacs && Array.isArray(allSacs) ? allSacs.slice(0, 5) : []);
+    } catch (error) {
+      console.error("Erro ao buscar SACs:", error);
+      toast.error("Ocorreu um erro ao buscar as perguntas. Tente novamente.");
+      setSacs([]); // Garante que sacs não fique undefined
     }
-
+  }
+  
+  // useEffect para carregar os SACs ao montar o componente
+  useEffect(() => {
     fetchSacs();
   }, []);
+  
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -42,9 +45,8 @@ export const Contact = () => {
     try {
       await createSac({ nome, email, motivo, mensagem, resposta });
       toast.success("Pergunta enviada com sucesso!");
-
+      fetchSacs();
       setIsDialogOpen(false);
-
     } catch (error) {
       console.error("Erro ao criar SAC:", error);
       toast.error("Erro ao enviar pergunta. Tente novamente.");
@@ -55,7 +57,7 @@ export const Contact = () => {
     <>
       <Header />
       <div className="max-w-6xl mx-auto px-6 py-[20vh]">
-        <h1 className="text-6xl font-bold mb-12">Perguntas mais frequentes</h1>
+        <h1 className="text-6xl font-bold mb-12">Perguntas mais recentes</h1>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div className="col-span-2 space-y-6">
             {sacs.map((sac, index) => (
@@ -63,7 +65,8 @@ export const Contact = () => {
                 key={sac._id || index}
                 className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 cursor-pointer text-2xl"
                 open={expandedIndex === index}
-                onToggle={() => {
+                onClick={(e) => {
+                  e.preventDefault(); // Impede que o comportamento padrão do <details> cause problemas
                   setExpandedIndex(expandedIndex === index ? null : index);
                 }}
               >
@@ -77,7 +80,6 @@ export const Contact = () => {
               </details>
             ))}
           </div>
-
           <div className="bg-white shadow-lg border-2 border-gray-300 rounded-lg p-8 flex flex-col items-center text-center transition-all duration-300">
             <Chat className="text-4xl text-black w-20 h-20" />
             <h2 className="text-3xl mt-3 font-bold">Você tem mais perguntas?</h2>

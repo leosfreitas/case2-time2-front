@@ -87,10 +87,6 @@ export const Home = () => {
     }
 
     fetchPacotes();
-
-    // Se você quiser **testar** SEM o backend, descomente as linhas abaixo:
-    // setCompanyPlans([]); // ou algum mock para empresas
-    // setClientPlans(testClientPlans);
   }, []);
 
   // Controla se o usuário quer ver "empresas" ou "clientes"
@@ -102,10 +98,11 @@ export const Home = () => {
   // Monta a lista de planos a ser exibida
   const plans = selectedType === "empresas" ? companyPlans : clientPlans;
 
-  // Cada página terá 4 itens
+  // Cada página terá até 4 itens
   const itemsPerPage = 4;
   const totalPages = Math.ceil(plans.length / itemsPerPage);
 
+  // Divide os planos em páginas
   const planPages = Array.from({ length: totalPages }, (_, i) =>
     plans.slice(i * itemsPerPage, i * itemsPerPage + itemsPerPage)
   );
@@ -125,12 +122,30 @@ export const Home = () => {
       setCurrentPage((prev) => prev - 1);
     }
   };
+
   // Ir para a página seguinte
   const handleNext = () => {
     if (currentPage < totalPages - 1) {
       setCurrentPage((prev) => prev + 1);
     }
   };
+
+  // Auto-play a cada 10 segundos
+  // Se chegar na última página, volta para a página 0
+  useEffect(() => {
+    if (totalPages > 1) {
+      const interval = setInterval(() => {
+        setCurrentPage((prev) => {
+          if (prev >= totalPages - 1) {
+            return 0;
+          }
+          return prev + 1;
+        });
+      }, 10_000);
+
+      return () => clearInterval(interval);
+    }
+  }, [totalPages]);
 
   return (
     <>
@@ -184,8 +199,8 @@ export const Home = () => {
         )}
 
         {/* Container do Carousel */}
-        <div className="relative w-full max-w-7xl px-4">
-          {/* Se existe mais de uma página, exibimos a seta para voltar, se não estiver na primeira página */}
+        <div className="relative w-full px-4 overflow-hidden">
+          {/* Setas de navegação */}
           {totalPages > 1 && currentPage > 0 && (
             <button
               className="absolute left-4 top-1/2 -translate-y-1/2 z-10"
@@ -197,8 +212,6 @@ export const Home = () => {
               />
             </button>
           )}
-
-          {/* Se existe mais de uma página, exibimos a seta para avançar, se não estiver na última página */}
           {totalPages > 1 && currentPage < totalPages - 1 && (
             <button
               className="absolute right-4 top-1/2 -translate-y-1/2 z-10"
@@ -212,25 +225,25 @@ export const Home = () => {
           )}
 
           {/* Janela visível (overflow-hidden) */}
-          <div className="overflow-hidden">
+          <div className="overflow-hidden w-full relative py-6">
             {/* Faixa que se desloca para a esquerda conforme a página atual */}
             <div
-                className="flex transition-transform duration-500 ease-in-out"
-                style={{
-                  transform: `translateX(-${currentPage * 100}%)`,
-                  width: `${100 * planPages.length}%`, // Garantindo espaço para todas as páginas
-                }}
-              >
+              className="flex transition-transform duration-500 ease-in-out"
+              style={{
+                transform: `translateX(-${currentPage * 100}%)`,
+              }}
+            >
               {/* Renderiza cada “página” (até 4 itens) */}
               {planPages.map((pagePlans, pageIndex) => (
                 <div
                   key={pageIndex}
-                  className="w-full shrink-0 flex flex-nowrap justify-center gap-6"
-                  >
+                  // Cada página ocupa 100% da largura do carrossel
+                  className="w-full flex-none grid grid-cols-4 gap-6 justify-items-center"
+                >
                   {pagePlans.map((plan, i) => (
                     <Card
                       key={i}
-                      className="p-6 text-center shadow-lg border rounded-2xl cursor-pointer w-72"
+                      className="p-6 text-center shadow-xl border border-gray-300 bg-white rounded-2xl cursor-pointer w-72"
                       onClick={() => setSelectedPlan(plan.name)}
                     >
                       <WifiHigh className="mx-auto mb-4 h-[25vh] w-10 text-gray-700" />
@@ -295,7 +308,10 @@ export const Home = () => {
         <div className="flex items-center justify-center gap-6 max-w-6xl mx-auto px-4">
           <ArrowLeft className="h-6 w-6 text-gray-500 cursor-pointer" />
           {feedbacks.map((item, index) => (
-            <Card key={index} className="p-6 shadow-lg border rounded-2xl bg-white w-80">
+            <Card
+              key={index}
+              className="p-6 shadow-lg border rounded-2xl bg-white w-80"
+            >
               <Quotes className="text-gray-600 h-6 w-6" />
               <p className="mt-4 text-gray-800">{item.feedback}</p>
               <div className="flex items-center mt-4">

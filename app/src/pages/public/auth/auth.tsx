@@ -34,29 +34,29 @@ export const Auth = () => {
                 <CaretDoubleLeft size={100} />
             </button>
 
-
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-start p-4">
-                <div className="text-white ml-[10vh]">
-                <h1 className="text-8xl font-bold leading-tight">
-                    Conectando
-                </h1>
-                <h1 className="text-8xl font-bold leading-tight">
-                    pessoas através
-                </h1>
-                <h1 className="text-8xl font-bold leading-tight">
-                    da tecnologia
-                </h1> 
+                {location.pathname !== "/auth/register" && (
+                    <div className="text-white ml-[10vh]">
+                        <h1 className="text-8xl font-bold leading-tight">
+                            Conectando
+                        </h1>
+                        <h1 className="text-8xl font-bold leading-tight">
+                            pessoas através
+                        </h1>
+                        <h1 className="text-8xl font-bold leading-tight">
+                            da tecnologia
+                        </h1> 
+                    </div>
+                )}
             </div>
 
             <div className="absolute inset-0 flex items-center justify-center">
                 <Routes>
-                    <Route path="select" element={<SelectLogin />}/>
-                    <Route path="admin" element={<AdminLogin />}/>
-                    <Route path="user" element={<UserLogin />}/>
-                    <Route path="register" element={<UserRegister />}/>
+                    <Route path="select" element={<SelectLogin />} />
+                    <Route path="admin" element={<AdminLogin />} />
+                    <Route path="user" element={<UserLogin />} />
+                    <Route path="register" element={<UserRegister />} />
                 </Routes>
-            </div>
-
             </div>
         </div>
     );
