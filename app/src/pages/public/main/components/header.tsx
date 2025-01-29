@@ -52,7 +52,7 @@ const HeaderStyles = styled.header`
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 0;
+    padding: 18px 0;
     background-color: transparent;
 
     .header-container {
