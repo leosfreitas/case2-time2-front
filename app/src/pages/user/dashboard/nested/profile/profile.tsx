@@ -12,13 +12,13 @@ export const Profile = () => {
   const [phone, setPhone] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    document.body.style.overflowX = "hidden";
-
+    document.body.style.overflow = "hidden"; // Bloqueia o scroll da página inteira
     return () => {
-      document.body.style.overflowX = "auto";
+      document.body.style.overflow = "auto"; // Restaura quando o componente desmontar
     };
   }, []);
 
@@ -41,7 +41,6 @@ export const Profile = () => {
     }
   };
 
-
   const handleUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -56,156 +55,158 @@ export const Profile = () => {
 
   const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       await requestPasswordReset(resetEmail);
       toast.success("Link de redefinição de senha enviado com sucesso.");
+      setIsModalOpen(false);
     } catch (error: any) {
       toast.error(error.message || "Erro ao solicitar redefinição de senha.");
     }
   };
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <div className="flex justify-center pt-12 pb-12">
-        <h1 className="text-2xl font-bold text-gray-800">Perfil</h1>
-      </div>
-      <div className="flex items-start justify-center">
-        <div className="relative min-h-[500px] p-8 bg-white shadow-xl rounded-sm w-2/3 mx-auto">
-          <h3 className="text-xl font-semibold mb-8 text-black">Meu Perfil</h3>
-          {userData ? (
-            isEditing ? (
-              <form onSubmit={handleUpdate} className="space-y-5">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                    Nome
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                    Email
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="cpf" className="block text-sm font-medium text-gray-700">
-                    CPF
-                  </label>
-                  <input
-                    id="cpf"
-                    type="text"
-                    value={cpf}
-                    onChange={(e) => setCpf(e.target.value)}
-                    className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
-                    Telefone
-                  </label>
-                  <input
-                    id="phone"
-                    type="text"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
-                  />
-                </div>
-                <div className="absolute bottom-4 right-4 flex gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="w-full rounded-md bg-[#3c50e0] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 ease-in-out hover:bg-[#324abc] focus:outline-none focus:ring-2 focus:ring-[#3c50e0] focus:ring-offset-1"
-                    >
-                    Cancelar
-                  </button>
-                  <button
-                    type="submit"
-                    className="w-full rounded-md bg-[#3c50e0] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 ease-in-out hover:bg-[#324abc] focus:outline-none focus:ring-2 focus:ring-[#3c50e0] focus:ring-offset-1"
-                    >
-                    Salvar
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="space-y-5">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Nome</label>
-                  <p className="mt-1 px-4 py-2 rounded-md bg-gray-100 text-sm text-gray-800">{name}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Email</label>
-                  <p className="mt-1 px-4 py-2 rounded-md bg-gray-100 text-sm text-gray-800">{email}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">CPF</label>
-                  <p className="mt-1 px-4 py-2 rounded-md bg-gray-100 text-sm text-gray-800">{cpf}</p>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700">Telefone</label>
-                  <p className="mt-1 px-4 py-2 rounded-md bg-gray-100 text-sm text-gray-800">{phone}</p>
-                </div>
+    <div className="flex flex-col items-center bg-gray-100 min-h-screen py-12 px-4 overflow-hidden w-full h-full">
+      {/* Título da página */}
+      <div className="w-full max-w-3xl bg-white p-10 shadow-xl rounded-lg">
+        <h2 className="text-4xl font-bold text-gray-800 mb-8 text-center">Meu Perfil</h2>
+        {/* Dados do usuário */}
+        {userData ? (
+          isEditing ? (
+            // Formulário de edição
+            <form onSubmit={handleUpdate} className="space-y-8">
+              {/* Nome */}
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Nome</label>
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full mt-2 border border-gray-300 rounded-lg px-5 py-4 text-2xl"
+                />
               </div>
-            )
-          ) : (
-            <p className="text-center text-gray-600">Carregando dados do perfil...</p>
-          )}
-           {!isEditing && (
-            <div className="absolute bottom-4 right-4 flex gap-4">
+              {/* Email */}
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Email</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full mt-2 border border-gray-300 rounded-lg px-5 py-4 text-2xl"
+                />
+              </div>
+              {/* CPF */}
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">CPF</label>
+                <input
+                  type="text"
+                  value={cpf}
+                  onChange={(e) => setCpf(e.target.value)}
+                  className="w-full mt-2 border border-gray-300 rounded-lg px-5 py-4 text-2xl"
+                />
+              </div>
+              {/* Telefone */}
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Telefone</label>
+                <input
+                  type="text"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  className="w-full mt-2 border border-gray-300 rounded-lg px-5 py-4 text-2xl"
+                />
+              </div>
+              {/* Botões */}
+              <div className="flex justify-end space-x-6 mt-8">
                 <button
-                type="button"
-                onClick={() => setIsEditing(true)}
-                className="w-full rounded-md bg-[#3c50e0] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 ease-in-out hover:bg-[#324abc] focus:outline-none focus:ring-2 focus:ring-[#3c50e0] focus:ring-offset-1"
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="px-8 py-4 bg-gray-400 text-gray-900 rounded-lg hover:bg-gray-500 text-2xl"
                 >
-                Editar
+                  Cancelar
                 </button>
+                <button
+                  type="submit"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-2xl"
+                >
+                  Salvar
+                </button>
+              </div>
+            </form>
+          ) : (
+            // Exibição dos dados
+            <div className="space-y-8">
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Nome</label>
+                <p className="mt-2 px-5 py-4 bg-gray-100 rounded-lg text-2xl">{name}</p>
+              </div>
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Email</label>
+                <p className="mt-2 px-5 py-4 bg-gray-100 rounded-lg text-2xl">{email}</p>
+              </div>
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">CPF</label>
+                <p className="mt-2 px-5 py-4 bg-gray-100 rounded-lg text-2xl">{cpf}</p>
+              </div>
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">Telefone</label>
+                <p className="mt-2 px-5 py-4 bg-gray-100 rounded-lg text-2xl">{phone}</p>
+              </div>
+              {/* Botões */}
+              <div className="flex justify-between mt-8">
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-2xl"
+                >
+                  Editar
+                </button>
+                <button
+                  onClick={() => setIsModalOpen(true)}
+                  className="px-8 py-4 bg-red-600 text-white rounded-lg hover:bg-red-700 text-2xl"
+                >
+                  Redefinir Senha
+                </button>
+              </div>
             </div>
-          )}
-        </div>
+          )
+        ) : (
+          <p className="text-center text-gray-500 text-2xl">Carregando dados do perfil...</p>
+        )}
       </div>
 
-      <div className="flex items-start justify-center mt-12">
-        <div className="relative min-h-[250px] p-8 bg-white shadow-xl rounded-sm w-2/3 mx-auto">
-          <h3 className="text-xl font-semibold mb-8 text-black">Mudar Senha</h3>
-          <form onSubmit={handlePasswordReset} className="space-y-5">
-            <div>
-              <label htmlFor="reset-email" className="block text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                id="reset-email"
-                type="email"
-                value={resetEmail}
-                onChange={(e) => setResetEmail(e.target.value)}
-                placeholder="Digite seu email"
-                required
-                className="w-full mt-1 rounded-md border border-gray-300 px-4 py-2 text-sm text-gray-800 placeholder-gray-400 focus:border-indigo-500 focus:ring-indigo-500"
-              />
-            </div>
-            <div className="absolute bottom-4 right-4 flex gap-4">
+      {/* Dialog para redefinir senha */}
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white p-10 rounded-lg shadow-xl w-full max-w-lg">
+            <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Redefinir Senha</h2>
+            <form onSubmit={handlePasswordReset} className="space-y-6">
+              <div>
+                <label className="block text-2xl font-medium text-gray-700">E-mail</label>
+                <input
+                  type="email"
+                  value={resetEmail}
+                  readOnly
+                  className="w-full mt-2 border border-gray-300 rounded-lg px-5 py-4 text-2xl bg-gray-100 cursor-not-allowed"
+                  required
+                />
+              </div>
+              <div className="flex justify-center space-x-6 mt-8">
                 <button
-                type="submit"
-                className="w-full rounded-md bg-[#3c50e0] px-4 py-2 text-sm font-semibold text-white shadow-md transition duration-200 ease-in-out hover:bg-[#324abc] focus:outline-none focus:ring-2 focus:ring-[#3c50e0] focus:ring-offset-1"
+                  type="button"
+                  onClick={() => setIsModalOpen(false)}
+                  className="px-8 py-4 bg-gray-400 text-gray-900 rounded-lg hover:bg-gray-500 text-2xl"
                 >
-                Enviar link
+                  Cancelar
                 </button>
-            </div>
-          </form>
+                <button
+                  type="submit"
+                  className="px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-2xl"
+                >
+                  Enviar Link
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

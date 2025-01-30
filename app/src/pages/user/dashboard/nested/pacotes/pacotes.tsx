@@ -1,20 +1,25 @@
 import { useState, useEffect } from "react";
 import { getAllPacotes } from "./api/getPacotes";
 import { getUserData } from "./api/getUserData";
-import { createAcordo } from "./api/acordoRequests"; // <-- Nova importação
+import { createAcordo } from "./api/acordoRequests";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import toast from "react-hot-toast";
 
 export const Pacotes = () => {
   const [pacotes, setPacotes] = useState<any[]>([]);
-  const [userType, setUserType] = useState<"Pessoa" | "Empresa" | null>(null); // Tipo do usuário
-  
+  const [userType, setUserType] = useState<"Pessoa" | "Empresa" | null>(null);
+
   // Diálogos
-  const [isDialogOpen, setIsDialogOpen] = useState(false); // Primeiro Dialog (confirma pacote)
-  const [isQRCodeDialogOpen, setIsQRCodeDialogOpen] = useState(false); // Segundo Dialog (mostra QR)
-  
+  const [isDetailsDialogOpen, setIsDetailsDialogOpen] = useState(false);
+  const [isQRCodeDialogOpen, setIsQRCodeDialogOpen] = useState(false);
+
   // Pacote selecionado
   const [selectedPacote, setSelectedPacote] = useState<any | null>(null);
 
@@ -37,23 +42,41 @@ export const Pacotes = () => {
   // Filtra os pacotes com base no tipo do usuário
   const filteredPacotes = pacotes.filter((p) => p.cliente === userType);
 
-
-  // Quando clicar em "Selecionar Plano", abrimos o primeiro diálogo
-  const handleSelectPlan = (pacote: any) => {
+  // Quando clicar em "Ver Detalhes", abrimos o primeiro diálogo
+  const handleViewDetails = (pacote: any) => {
     setSelectedPacote(pacote);
-    setIsDialogOpen(true);
+    setIsDetailsDialogOpen(true);
   };
 
   // Fecha o primeiro diálogo e abre o do QRCode
   const handleContinue = () => {
-    setIsDialogOpen(false);
+    setIsDetailsDialogOpen(false);
     setIsQRCodeDialogOpen(true);
   };
+
+  const formatKey = (key: string) => {
+    return key
+      .replace(/_/g, " ") // Substitui underscores por espaços
+      .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitaliza a primeira letra de cada palavra
+  };
+  
+  const formatValue = (value: any) => {
+    if (typeof value === "string") {
+      // Tratamento especial para valores conhecidos
+      const formatted = value
+        .toLowerCase()
+        .replace("fibra optica", "Fibra Óptica")
+        .replace("5g", "5G")
+        .replace("4g", "4G");
+      return formatted.charAt(0).toUpperCase() + formatted.slice(1); // Capitaliza a primeira letra
+    }
+    return value; // Retorna valores não string sem alterações
+  };
+  
 
   // Finaliza a compra -> chama a API para criar o acordo
   const handleFinalizarCompra = async () => {
     if (!selectedPacote?._id) return;
-
     try {
       await createAcordo(selectedPacote._id);
       toast.success("Compra finalizada com sucesso!");
@@ -67,65 +90,102 @@ export const Pacotes = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-16">
-      <h1 className="text-5xl font-bold mb-10 text-center">Pacotes disponíveis para você</h1>
+      <h1 className="text-5xl font-bold mb-10 text-center">
+        Pacotes disponíveis para você
+      </h1>
 
       {/* Verifica se já carregou os dados do usuário */}
       {userType ? (
-        <>
-          {/* Lista de Pacotes */}
-          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredPacotes.length === 0 ? (
-              <p className="text-center col-span-3 text-xl text-gray-600">Nenhum pacote encontrado.</p>
-            ) : (
-              filteredPacotes.map((pacote, index) => (
-                <Card
-                  key={index}
-                  className="p-6 shadow-lg border rounded-xl bg-white text-center"
-                >
-                  <h3 className="text-xl font-bold text-gray-900">{pacote.nome}</h3>
-                  <p className="text-lg font-semibold text-gray-800 mt-2">
-                    {pacote.tipo.join(", ")}
-                  </p>
-                  <p className="text-lg font-semibold text-gray-900 mt-2">
-                    {`R$ ${pacote.preco}/mês`}
-                  </p>
-                  <Button
-                    className="mt-4 w-full bg-blue-600 text-white hover:bg-blue-700"
-                    onClick={() => handleSelectPlan(pacote)}
-                  >
-                    Selecionar Plano
-                  </Button>
-                </Card>
-              ))
-            )}
-          </div>
-        </>
+        <div className="flex flex-wrap gap-6 justify-center">
+          {filteredPacotes.map((pacote, index) => (
+            <Card
+              key={index}
+              className="p-8 shadow-lg border rounded-xl bg-white flex flex-col items-center w-80"
+            >
+              <h3 className="text-4xl font-bold text-gray-900">{pacote.nome}</h3>
+              <p className="text-2xl font-semibold text-gray-700 mt-4">
+                {pacote.tipo.join(", ")}
+              </p>
+              <p className="text-3xl font-bold text-gray-800 mt-4">
+                R$ {pacote.preco}/mês
+              </p>
+              <Button
+                className="mt-[3vh] bg-blue-600 text-white hover:bg-blue-700 text-2xl py-3 w-full"
+                onClick={() => handleViewDetails(pacote)}
+              >
+                Ver Detalhes
+              </Button>
+            </Card>
+          ))}
+        </div>
       ) : (
-        <p className="text-center text-lg text-gray-600">Carregando informações...</p>
+        <p className="text-center text-3xl text-gray-600">
+          Carregando informações...
+        </p>
       )}
 
-      {/* Dialog 1: Confirmação do pacote */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-lg p-8 bg-white rounded-lg shadow-lg">
+      {/* Dialog 1: Detalhes do pacote */}
+      <Dialog open={isDetailsDialogOpen} onOpenChange={setIsDetailsDialogOpen}>
+        <DialogContent className="max-w-2xl p-8 bg-white rounded-lg shadow-lg">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Confirmação de Pacote</DialogTitle>
+            <DialogTitle className="text-4xl font-bold text-center">
+              Detalhes do Pacote
+            </DialogTitle>
           </DialogHeader>
           {selectedPacote && (
-            <div className="space-y-4 mt-6">
+            <div className="space-y-6 mt-6 text-2xl">
               <p>
                 <strong>Pacote:</strong> {selectedPacote.nome}
               </p>
               <p>
-                <strong>Tipo:</strong> {selectedPacote.tipo.join(", ")}
+                <strong>Tipos:</strong> {selectedPacote.tipo.join(", ")}
               </p>
               <p>
                 <strong>Preço:</strong> R$ {selectedPacote.preco}/mês
               </p>
+              <p>
+                <strong>Cortesia:</strong> {selectedPacote.cortesia || "Nenhuma"}
+              </p>
+              {selectedPacote.detalhes &&
+                Object.keys(selectedPacote.detalhes).length > 0 ? (
+                  <div>
+                    <strong className="text-2xl">Mais informações:</strong>
+                    <div className="mt-4 space-y-4">
+                      {Object.entries(selectedPacote.detalhes).map(
+                        ([key, value]: any, idx) => (
+                          <div key={idx}>
+                            <strong className="font-semibold text-2xl">{formatKey(key)}:</strong>
+                            {typeof value === "object" && value !== null ? (
+                              <ul className="list-disc list-inside ml-4 space-y-2">
+                                {Object.entries(value).map(([subKey, subVal]) => (
+                                  <li key={subKey} className="text-2xl">
+                                    <strong className="font-semibold">{formatKey(subKey)}: </strong>
+                                    {formatValue(subVal)}
+                                  </li>
+                                ))}
+                              </ul>
+                            ) : (
+                              <p className="text-2xl">
+                                <strong>{formatKey(key)}: </strong>
+                                {formatValue(value)}
+                              </p>
+                            )}
+                          </div>
+                        )
+                      )}
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-2xl">Sem detalhes adicionais.</p>
+                )}
+
+
+
               <Button
-                className="bg-blue-600 text-white w-full mt-6"
+                className="bg-blue-600 text-white w-full mt-6 text-3xl py-4"
                 onClick={handleContinue}
               >
-                Continuar
+                Continuar para pagamento
               </Button>
             </div>
           )}
@@ -134,22 +194,23 @@ export const Pacotes = () => {
 
       {/* Dialog 2: QRCode e Finalização */}
       <Dialog open={isQRCodeDialogOpen} onOpenChange={setIsQRCodeDialogOpen}>
-        <DialogContent className="max-w-lg p-8 bg-white rounded-lg shadow-lg">
+        <DialogContent className="max-w-2xl p-8 bg-white rounded-lg shadow-lg">
           <DialogHeader>
-            <DialogTitle className="text-2xl">Pagamento</DialogTitle>
+            <DialogTitle className="text-4xl font-bold text-center">
+              Pagamento
+            </DialogTitle>
           </DialogHeader>
           <div className="mt-6 text-center">
-            <p className="mb-4 text-lg">
+            <p className="mb-4 text-3xl">
               Escaneie o QRCode abaixo para efetuar o pagamento.
             </p>
-            {/* QRCode Placeholder */}
             <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/QR_code_Wikimedia_Commons_%28URL%29.png/300px-QR_code_Wikimedia_Commons_%28URL%29.png"
+              src="/images/qrcode-pix.png"
               alt="QRCode de pagamento"
-              className="mx-auto mb-6 h-40 w-40"
+              className="mx-auto mb-6 h-60 w-60"
             />
             <Button
-              className="bg-green-600 text-white w-full"
+              className="bg-green-600 text-white w-full text-3xl py-4"
               onClick={handleFinalizarCompra}
             >
               Finalizar Compra

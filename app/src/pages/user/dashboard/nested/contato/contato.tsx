@@ -68,7 +68,7 @@ export const Contato = () => {
 
   return (
     <>
-      <div className="max-w-6xl mx-auto px-6 py-[20vh]">
+      <div className="max-w-6xl mx-auto px-6 py-[10vh]">
         <h1 className="text-6xl font-bold mb-12">Minhas Perguntas</h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
