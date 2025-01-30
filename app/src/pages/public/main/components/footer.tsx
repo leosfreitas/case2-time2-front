@@ -61,7 +61,7 @@ export const Footer = () => {
   
         {/* Footer Bottom */}
         <div className="text-center text-xl text-gray-400 mt-20">
-          © 2021 - Copyright | All Rights Reserved
+          © 2025 - Copyright | All Rights Reserved
         </div>
       </footer>
     );

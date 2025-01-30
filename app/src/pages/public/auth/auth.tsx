@@ -15,7 +15,7 @@ export const Auth = () => {
         "/auth/select": "/home",
         "/auth/admin": "/auth/select",
         "/auth/user": "/auth/select",
-        "/auth/register": "/auth/user",
+        "/auth/register": "/home",
     };
 
     const handleBack = () => {

@@ -1,11 +1,9 @@
 import { Footer } from "../../components/footer";
-import { CaretDoubleDown } from "@phosphor-icons/react";
+import { CaretDoubleDown, Users, Trophy, Scales } from "@phosphor-icons/react";
 import { Header } from "../../components/header";
 import { useRef } from "react";
 
 export const About = () => {
-
-
     const scrollToSection = useRef<HTMLDivElement>(null);
 
     const handleScroll = () => {
@@ -33,9 +31,7 @@ export const About = () => {
                     </div>
                 </div>
                 <div className="relative z-20 flex justify-center mb-5">
-                    <CaretDoubleDown size={64} color="white"
-                        onClick={handleScroll}
-                    />
+                    <CaretDoubleDown size={64} color="white" onClick={handleScroll} />
                 </div>
             </div>
 
@@ -43,50 +39,57 @@ export const About = () => {
 
             {/* Seção da história */}
             <section ref={scrollToSection} className="bg-gray-100 py-20 px-12">
-                <h2 className="text-5xl font-bold text-center mb-12">Há mais de 15 anos no mercado</h2>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div className="bg-white p-8 shadow-lg rounded-lg text-center">
-                        <h3 className="text-2xl font-bold mb-6">2010</h3>
-                        <p className="text-lg">Há quinze anos, Renato tomou uma decisão corajosa: vendeu sua Veltrac e Mobi para fundar a Teleconnect.</p>
+                <h2 className="text-6xl font-bold text-center mb-12">Há mais de 15 anos no mercado</h2>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <div className="bg-[#0D2C40] p-8 shadow-lg rounded-lg text-center text-white">
+                        <h3 className="text-4xl font-bold mb-6">2010</h3>
+                        <p className="text-2xl">Renato tomou uma decisão corajosa: vendeu sua Veltrac e Mobi para fundar a Teleconnect.</p>
                     </div>
                     <div className="bg-white p-8 shadow-lg rounded-lg text-center">
-                        <h3 className="text-2xl font-bold mb-6">2012</h3>
-                        <p className="text-lg">Renato, agora junto com seu filho Juninho e seu irmão Reinaldo, conseguiram construir a primeira fábrica no sudeste de São Paulo.</p>
+                        <h3 className="text-4xl font-bold mb-6">2012</h3>
+                        <p className="text-2xl">Renato, junto com seu filho Juninho e seu irmão Reinaldo, construiu a primeira fábrica no sudeste de São Paulo.</p>
+                    </div>
+                    <div className="bg-[#0D2C40] p-8 shadow-lg rounded-lg text-center text-white">
+                        <h3 className="text-4xl font-bold mb-6">2020</h3>
+                        <p className="text-2xl">A Teleconnect se tornou uma das maiores empresas na área de telecomunicação, expandindo para o sudeste do Brasil.</p>
                     </div>
                     <div className="bg-white p-8 shadow-lg rounded-lg text-center">
-                        <h3 className="text-2xl font-bold mb-6">2020</h3>
-                        <p className="text-lg">A Teleconnect se tornou uma das maiores empresas na área de telecomunicação, expandindo para o resto do sudeste do Brasil.</p>
+                        <h3 className="text-4xl font-bold mb-6">2025</h3>
+                        <p className="text-2xl">Hoje, a Teleconnect busca expandir-se ainda mais, aumentando o variado portfólio que já apresenta.</p>
                     </div>
                 </div>
             </section>
 
             {/* Seção de valores */}
             <section className="bg-white py-20 px-12">
-                <h2 className="text-5xl font-bold text-center mb-12">Nossos Valores</h2>
-                <p className="text-lg text-center mb-12 max-w-4xl mx-auto">
+                <h2 className="text-6xl font-bold text-center mb-12">Nossos Valores</h2>
+                <p className="text-2xl text-center mb-12 max-w-4xl mx-auto">
                     Manter uma cultura forte ancorada em valores claros e frequentemente comunicados está no cerne do que torna a Teleconnect referência no mercado.
                     Estamos comprometidos com os mais altos padrões de ética, conduta empresarial e princípios da empresa.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">Clientes em primeiro lugar</h3>
-                        <p className="text-lg">Priorizamos as necessidades e expectativas de nossos clientes em todas as decisões que tomamos.</p>
+                    <div className="flex flex-col items-center">
+                        <Users size={80} className="text-[#0D2C40] mb-6" />
+                        <h3 className="text-3xl font-bold mb-4">Clientes em primeiro lugar</h3>
+                        <p className="text-2xl">Priorizamos as necessidades e expectativas de nossos clientes em todas as decisões que tomamos.</p>
                     </div>
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">Excelência</h3>
-                        <p className="text-lg">Nos esforçamos para oferecer serviços de qualidade superior e inovação constante.</p>
+                    <div className="flex flex-col items-center">
+                        <Trophy size={80} className="text-[#0D2C40] mb-6" />
+                        <h3 className="text-3xl font-bold mb-4">Excelência</h3>
+                        <p className="text-2xl">Nos esforçamos para oferecer serviços de qualidade superior e inovação constante.</p>
                     </div>
-                    <div>
-                        <h3 className="text-2xl font-bold mb-4">Ética e Transparência</h3>
-                        <p className="text-lg">Agimos com honestidade, clareza e respeito em todas as nossas relações.</p>
+                    <div className="flex flex-col items-center">
+                        <Scales size={80} className="text-[#0D2C40] mb-6" />
+                        <h3 className="text-3xl font-bold mb-4">Ética e Transparência</h3>
+                        <p className="text-2xl">Agimos com honestidade, clareza e respeito em todas as nossas relações.</p>
                     </div>
                 </div>
             </section>
 
             {/* Seção de missão */}
             <section className="bg-gray-100 py-20 px-12">
-                <h2 className="text-5xl font-bold text-center mb-12">Nossa Missão</h2>
-                <p className="text-lg text-center max-w-4xl mx-auto">
+                <h2 className="text-6xl font-bold text-center mb-12">Nossa Missão</h2>
+                <p className="text-2xl text-center max-w-4xl mx-auto">
                     Proporcionar conexão de qualidade para pessoas e empresas, transformando a maneira como se comunicam e interagem com o mundo.
                     Oferecemos soluções inovadoras em banda larga, telefonia fixa e móvel, garantindo tecnologia de ponta e um atendimento eficiente.
                     Nosso compromisso é simplificar e melhorar a vida dos nossos clientes, contribuindo para um futuro mais conectado e acessível.
