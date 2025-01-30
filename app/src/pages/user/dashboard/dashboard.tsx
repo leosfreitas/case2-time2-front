@@ -24,9 +24,10 @@ export const Dashboard = () => {
 
 const DashboardStyles = styled.div`
     display: grid;
-    grid-template-columns: 300px 1fr; /* Largura da sidebar padrão */
-    grid-template-rows: 100px 1fr;
-    height: 100vh;
+    grid-template-columns: 35vh 1fr; /* Largura da sidebar padrão */
+    grid-template-rows: 15vh 1fr;
+    min-height: 100vh;
+    max-height: 100vh;
     width: 100vw;
     background-color: #eff3f7;
 
