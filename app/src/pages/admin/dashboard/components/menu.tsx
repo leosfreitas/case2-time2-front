@@ -60,6 +60,8 @@ const MenuStyles = styled.div`
     display: flex;
     flex-direction: column;
     gap: 20px;
+    min-height: 100vh;
+    max-height: 100vh;
 
     h1 {
         font-size: 4rem;

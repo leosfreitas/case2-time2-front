@@ -5,6 +5,7 @@ import { Home } from './dashboard/nested/home/homepage';
 import { Profile } from './dashboard/nested/profile/profile';
 import { Contato } from './dashboard/nested/contato/contato';
 import { Pacotes } from './dashboard/nested/pacotes/pacotes';
+import { Users } from './dashboard/nested/users/users';
 import { Sac } from './dashboard/nested/sac/sac';
 
 const routes: RouteObject[] = [
@@ -40,6 +41,11 @@ const routes: RouteObject[] = [
         element: <Home />,
         id: "admin-home",
       },
+      {
+        path: "users",
+        element: <Users />,
+        id: "admin-users",
+      },  
       {
         path: "profile",
         element: <Profile />,

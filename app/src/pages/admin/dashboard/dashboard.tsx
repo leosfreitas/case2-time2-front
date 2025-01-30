@@ -6,6 +6,7 @@ import { Home } from './nested/home/homepage';
 import { Profile } from './nested/profile/profile';
 import { Contato } from './nested/contato/contato';
 import { Pacotes } from './nested/pacotes/pacotes';
+import { Users } from './nested/users/users';
 import { Sac } from './nested/sac/sac';
 
 export const Dashboard = () => {
@@ -15,6 +16,7 @@ export const Dashboard = () => {
             <Menu/>
             <Routes>
                 <Route path="home" element={<Home />}/>
+                <Route path="users" element={<Users />}/>
                 <Route path="profile" element={<Profile />}/>
                 <Route path="contato" element={<Contato />}/>
                 <Route path="pacotes" element={<Pacotes />}/>
@@ -28,7 +30,8 @@ const DashboardStyles = styled.div`
     display: grid;
     grid-template-columns: 35vh 1fr; /* Largura da sidebar padrão */
     grid-template-rows: 15vh 1fr;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: 100vh;
     width: 100vw;
     background-color: #eff3f7;
 
