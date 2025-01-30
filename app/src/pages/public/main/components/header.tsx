@@ -53,7 +53,7 @@ export const Header = () => {
     } catch (error) {
         console.error("Erro ao fazer logout:", error);
     }
-};
+  };
 
   const handleNavigateDashboard = () => {
     if (userType === "admin") {
@@ -129,7 +129,7 @@ const HeaderStyles = styled.header`
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 18px 0;
+  padding: 22px 0;
   background-color: transparent;
 
   .header-container {
@@ -138,14 +138,14 @@ const HeaderStyles = styled.header`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 32px;
+    padding: 24px 36px;
     width: 90%;
-    max-width: 1400px;
+    max-width: 1600px;
   }
 
   .logo {
     .logo-title {
-      font-size: 32px;
+      font-size: 42px;
       font-weight: bold;
       color: white;
     }
@@ -153,12 +153,12 @@ const HeaderStyles = styled.header`
 
   nav {
     display: flex;
-    gap: 48px;
+    gap: 56px;
 
     .nav-link {
       color: white;
-      font-size: 24px;
-      font-weight: 700;
+      font-size: 30px;
+      font-weight: 800;
       text-decoration: none;
       transition: all 0.3s ease;
 
@@ -170,13 +170,13 @@ const HeaderStyles = styled.header`
 
   .auth-buttons {
     display: flex;
-    gap: 20px;
+    gap: 24px;
 
     .auth-button {
-      padding: 10px 24px;
-      border-radius: 28px;
-      font-size: 18px;
-      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: 32px;
+      font-size: 24px;
+      font-weight: 800;
       cursor: pointer;
       border: none;
       transition: all 0.3s ease;

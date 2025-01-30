@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getUserData, updateUserData } from "./api/profile";
-import { requestPasswordReset } from "@/pages/user/auth/reset-password/api/RequestPasswordReset";
+import { requestPasswordReset } from "@/pages/public/auth/nested/resetPass/api/RequestPasswordReset";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 

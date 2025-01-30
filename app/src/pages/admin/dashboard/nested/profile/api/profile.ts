@@ -45,26 +45,3 @@ export async function updateAdminData(
     console.log("Dados do avaliador atualizados com sucesso:", responseData);
     return { response, responseData };
   }
-  
-export async function requestPasswordReset(email: string): Promise<void> {
-  const { apiBaseUrl } = config;
-  const requestRoute = "/admin/auth/pwd/recovery/email";
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email }),
-    credentials: "include" as RequestCredentials,
-  };
-
-  const response = await fetch(apiBaseUrl + requestRoute, options);
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({}));
-    throw new Error(errorData.message || "Erro ao solicitar redefinição de senha");
-  }
-
-  console.log("Solicitação de redefinição de senha enviada com sucesso.");
-}

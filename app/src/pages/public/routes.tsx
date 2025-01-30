@@ -8,6 +8,8 @@ import { AdminLogin } from './auth/nested/adminLogin/login';
 import { UserLogin } from './auth/nested/userLogin/login';
 import { SelectLogin } from './auth/nested/selectLogin/select';
 import { UserRegister } from './auth/nested/userRegister/register';
+import { RequestPasswordReset } from './auth/nested/resetPass/RequestPasswordReset';
+import { PasswordReset } from './auth/nested/resetPass/PasswordReset';
 
 const routes: RouteObject[] = [
   {
@@ -46,6 +48,15 @@ const routes: RouteObject[] = [
         path: "register",
         element: <UserRegister />,
       },
+      {
+        path: "reset-password",
+        element: <RequestPasswordReset />,
+      },
+      {
+        path: "reset-password/:token",
+        element: <PasswordReset />,
+      }
+        
     ],
   },
 ];

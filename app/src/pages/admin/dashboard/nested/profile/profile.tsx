@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { getAdminData, updateAdminData, requestPasswordReset } from "./api/profile";
+import { getAdminData, updateAdminData } from "./api/profile";
+import { requestPasswordReset } from "@/pages/public/auth/nested/resetPass/api/RequestPasswordReset";
 import toast from "react-hot-toast";
 
 export const Profile = () => {

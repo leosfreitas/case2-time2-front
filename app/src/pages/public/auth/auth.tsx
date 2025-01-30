@@ -6,6 +6,8 @@ import { SelectLogin } from './nested/selectLogin/select';
 import { AdminLogin } from './nested/adminLogin/login';
 import { UserLogin } from './nested/userLogin/login';
 import { UserRegister } from './nested/userRegister/register';
+import { RequestPasswordReset } from './nested/resetPass/RequestPasswordReset';
+import { PasswordReset } from './nested/resetPass/PasswordReset';
 
 export const Auth = () => {
     const navigate = useNavigate();
@@ -16,6 +18,8 @@ export const Auth = () => {
         "/auth/admin": "/auth/select",
         "/auth/user": "/auth/select",
         "/auth/register": "/home",
+        "/auth/reset-password": "/auth/select",
+        "auth/reset-password/:token": "/auth/select",
     };
 
     const handleBack = () => {
@@ -56,6 +60,8 @@ export const Auth = () => {
                     <Route path="admin" element={<AdminLogin />} />
                     <Route path="user" element={<UserLogin />} />
                     <Route path="register" element={<UserRegister />} />
+                    <Route path="reset-password" element={<RequestPasswordReset />} />
+                    <Route path="reset-password/:token" element={<PasswordReset />} />
                 </Routes>
             </div>
         </div>

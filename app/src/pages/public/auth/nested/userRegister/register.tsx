@@ -15,8 +15,6 @@ export const UserRegister = () => {
     phone: "",
   });
 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -78,14 +76,14 @@ export const UserRegister = () => {
     <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[70vh] h-auto space-y-8">
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-8">
         <div className="col-span-2 text-center">
-          <h2 className="text-4xl font-extrabold text-center text-white mb-4">
+          <h2 className="text-5xl font-extrabold text-center text-white mb-4">
             Selecionar Cadastro:
           </h2>
           <div className="flex justify-center gap-4">
             <button
               type="button"
               onClick={() => setFormData({ ...formData, tipo: "Pessoa" })}
-              className={`px-6 py-3 rounded-lg text-lg font-bold transition ${
+              className={`px-6 py-3 rounded-lg text-xl font-bold transition ${
                 formData.tipo === "Pessoa"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-300 text-gray-800 hover:bg-gray-400"
@@ -96,7 +94,7 @@ export const UserRegister = () => {
             <button
               type="button"
               onClick={() => setFormData({ ...formData, tipo: "Empresa" })}
-              className={`px-6 py-3 rounded-lg text-lg font-bold transition ${
+              className={`px-6 py-3 rounded-lg text-xl font-bold transition ${
                 formData.tipo === "Empresa"
                   ? "bg-blue-500 text-white"
                   : "bg-gray-300 text-gray-800 hover:bg-gray-400"
@@ -107,10 +105,9 @@ export const UserRegister = () => {
           </div>
         </div>
 
-
         {/* Campo Nome */}
         <div>
-          <label htmlFor="name" className="block text-lg font-bold text-white">
+          <label htmlFor="name" className="block text-xl font-semibold text-white">
             Nome Completo
           </label>
           <input
@@ -121,13 +118,13 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder="Digite seu nome completo"
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         {/* Campo Email */}
         <div>
-          <label htmlFor="email" className="block text-lg font-bold text-white">
+          <label htmlFor="email" className="block text-xl font-semibold text-white">
             Email
           </label>
           <input
@@ -138,7 +135,7 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder="Digite seu email"
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
@@ -146,7 +143,7 @@ export const UserRegister = () => {
         <div>
           <label
             htmlFor={formData.tipo === "Pessoa" ? "cpf" : "cnpj"}
-            className="block text-lg font-bold text-white"
+            className="block text-xl font-semibold text-white"
           >
             {formData.tipo === "Pessoa" ? "CPF" : "CNPJ"}
           </label>
@@ -158,13 +155,13 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder={`Digite seu ${formData.tipo === "Pessoa" ? "CPF" : "CNPJ"}`}
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         {/* Campo Telefone */}
         <div>
-          <label htmlFor="phone" className="block text-lg font-bold text-white">
+          <label htmlFor="phone" className="block text-xl font-semibold text-white">
             Telefone
           </label>
           <input
@@ -175,13 +172,13 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder="Digite seu telefone"
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         {/* Campo Senha */}
         <div>
-          <label htmlFor="password" className="block text-lg font-bold text-white">
+          <label htmlFor="password" className="block text-xl font-semibold text-white">
             Senha
           </label>
           <input
@@ -192,13 +189,13 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder="Digite sua senha"
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         {/* Campo Confirmar Senha */}
         <div>
-          <label htmlFor="confirmPassword" className="block text-lg font-bold text-white">
+          <label htmlFor="confirmPassword" className="block text-xl font-semibold text-white">
             Confirmar Senha
           </label>
           <input
@@ -209,17 +206,17 @@ export const UserRegister = () => {
             onChange={handleChange}
             required
             placeholder="Digite novamente sua senha"
-            className="w-full mt-3 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
         </div>
 
         {/* Erro */}
-        {error && <p className="text-lg text-red-600 text-center col-span-2">{error}</p>}
+        {error && <p className="text-xl text-red-600 text-center col-span-2">{error}</p>}
 
         <div className="col-span-2 mt-6">
           <button
             type="submit"
-            className="w-full bg-[#0D2C40] text-white py-4 text-xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
+            className="w-full bg-[#0D2C40] text-white py-5 text-2xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
           >
             Cadastrar
           </button>

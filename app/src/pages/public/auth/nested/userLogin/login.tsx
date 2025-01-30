@@ -20,14 +20,14 @@ export const UserLogin = () => {
 
     return (
         <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[50vh] h-auto space-y-8">
-            <h2 className="text-4xl font-extrabold text-center text-white">
+            <h2 className="text-5xl font-extrabold text-center text-white">
                 Login para Clientes
             </h2>
             <form onSubmit={handleSubmit} className="space-y-8">
                 <div>
                     <label
                         htmlFor="email"
-                        className="block text-lg font-semibold text-white"
+                        className="block text-xl font-semibold text-white"
                     >
                         Email
                     </label>
@@ -39,14 +39,14 @@ export const UserLogin = () => {
                         onChange={(e) => setEmail(e.target.value)}
                         required
                         placeholder="Digite seu email"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
                 <div>
                     <label
                         htmlFor="password"
-                        className="block text-lg font-semibold text-white"
+                        className="block text-xl font-semibold text-white"
                     >
                         Senha
                     </label>
@@ -58,24 +58,24 @@ export const UserLogin = () => {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                         placeholder="Digite sua senha"
-                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-base text-gray-800 placeholder-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                        className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                 </div>
 
                 <div>
                     <button
                         type="submit"
-                        className="w-full bg-[#0D2C40] text-white py-4 text-xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
+                        className="w-full bg-[#0D2C40] text-white py-5 text-2xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
                     >
                         Entrar
                     </button>
                 </div>
             </form>
 
-            <p className="text-2xl mt-6 text-center text-lg text-white">
+            <p className="text-2xl mt-6 text-center text-white">
                 Esqueceu sua senha?{' '}
                 <a
-                    href="/auth/register"
+                    href="/auth/reset-password"
                     className="text-2xl text-[#0D2C40] hover:underline transition duration-300 ease-in-out"
                 >
                     Clique Aqui

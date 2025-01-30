@@ -1,7 +1,5 @@
 import { redirect, RouteObject } from 'react-router-dom';
 import { Dashboard } from './dashboard/dashboard';
-import { RequestPasswordReset } from './auth/reset-password/RequestPasswordReset';
-import { PasswordReset } from './auth/reset-password/PasswordReset';
 import { Home } from './dashboard/nested/home/homepage';
 import { Profile } from './dashboard/nested/profile/profile';
 import { checkToken } from './auth/token/api/CheckToken';
@@ -9,17 +7,6 @@ import { Contato } from './dashboard/nested/contato/contato';
 import { Pacotes } from './dashboard/nested/pacotes/pacotes';
 
 const routes: RouteObject[] = [
-  {
-    path: "user/auth/pwd/recovery/email",
-    element: <RequestPasswordReset />,
-    id: "password-recovery-request",
-  },
-  {
-    path: "user/auth/reset/pwd/:token",
-    element: <PasswordReset />,
-    id: "password-reset",
-  },
-
   {
     path: "user/dashboard",
     element: <Dashboard />,
@@ -29,7 +16,7 @@ const routes: RouteObject[] = [
         await checkToken();
         return null;
       } catch (error) {
-        return redirect('/auth/login/select');
+        return redirect('/auth/select');
       }
     },
     children: [

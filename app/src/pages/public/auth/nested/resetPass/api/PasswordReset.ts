@@ -1,15 +1,16 @@
 import { config } from "@/config/config";
 
-export async function requestPasswordReset(email: string): Promise<{ response: Response }> {
+export async function resetPassword(token: string, password: string): Promise<{ response: Response }> {
     let { apiBaseUrl } = config;
-    let requestRoute = '/user/auth/pwd/recovery/email'; 
+    let requestRoute = '/auth/reset-password'; 
     let options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({ 
-            email: email 
+            token: token, 
+            password: password 
         }),
     };
 
@@ -17,7 +18,7 @@ export async function requestPasswordReset(email: string): Promise<{ response: R
 
     if (!response.ok) {
         const contentType = response.headers.get('content-type');
-        let errorMessage = 'Erro ao solicitar redefinição de senha.';
+        let errorMessage = 'Erro ao redefinir a senha.';
         if (contentType && contentType.includes('application/json')) {
             const { message } = await response.json();
             errorMessage = message || errorMessage;

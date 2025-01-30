@@ -51,6 +51,7 @@ export const Menu = () => {
         </MenuStyles>
     );
 };
+
 const MenuStyles = styled.div`
     grid-column: 1;
     grid-row: 1 / span 2;
@@ -125,3 +126,4 @@ const MenuStyles = styled.div`
         }
     }
 `;
+

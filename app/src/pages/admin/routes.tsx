@@ -9,16 +9,6 @@ import { Users } from './dashboard/nested/users/users';
 import { Sac } from './dashboard/nested/sac/sac';
 
 const routes: RouteObject[] = [
-//   {
-//     path: "admin/auth/pwd/recovery/email",
-//     element: <RequestPasswordReset />,
-//     id: "password-recovery-request",
-//   },
-//   {
-//     path: "admin/auth/reset/pwd/:token",
-//     element: <PasswordReset />,
-//     id: "password-reset",
-//   },
   {
     path: "admin/dashboard",
     element: <Dashboard />,
@@ -28,7 +18,7 @@ const routes: RouteObject[] = [
         await checkToken();
         return null;
       } catch (error) {
-        return redirect('/admin/auth/login');
+        return redirect('/auth/select');
       }
     },
     children: [
