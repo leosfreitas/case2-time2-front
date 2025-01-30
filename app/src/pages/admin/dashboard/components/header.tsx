@@ -42,35 +42,37 @@ export function Header() {
 
   return (
     <HeaderStyle>
-      <Breadcrumb>
-        <BreadcrumbList>
-          {matches.map((match, index) => {
-            const key = match.pathname.split("/").pop() || "";
-            const breadcrumbLabel = routeLabels[key] || capitalizeFirstLetter(key);
+        <Breadcrumb>
+          <BreadcrumbList>
+            {matches.map((match, index) => {
+              const key = match.pathname.split("/").pop() || "";
+              const breadcrumbLabel = routeLabels[key] || capitalizeFirstLetter(key);
 
-            return (
-              <div
-                key={index}
-                style={{ display: "flex", alignItems: "center", gap: "10px" }}
-              >
-                <BreadcrumbItem>
-                  <BreadcrumbLink
-                    href={match.pathname}
-                    style={{ fontWeight: "500" }}
+              return (
+                <div
+                  key={index}
+                  className="flex items-center gap-2 text-4xl" // Aumentando o tamanho da fonte e o peso
                   >
-                    {breadcrumbLabel}
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                {index < matches.length - 1 && <BreadcrumbSeparator />}
-              </div>
-            );
-          })}
-        </BreadcrumbList>
-      </Breadcrumb>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink
+                      href={match.pathname}
+                      style={{ fontWeight: "500" }}
+                    >
+                      {breadcrumbLabel}
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  {index < matches.length - 1 && <BreadcrumbSeparator className="text-black"/>}
+                </div>
+              );
+            })}
+          </BreadcrumbList>
+        </Breadcrumb>
 
-      <div className="user-container">
-        <h1>{userName ? `${userName}` : "Carregando..."}</h1>
-      </div>
+        <div className="user-container">
+          <h1
+            className="text-4xl"
+          >{userName ? capitalizeFirstLetter(userName) : "Carregando..."}</h1>
+        </div>
     </HeaderStyle>
   );
 }

@@ -168,7 +168,13 @@ export const Contato = () => {
                     setExpandedIndex(expandedIndex === index ? null : index);
                   }}
                 >
-                  <summary className="font-bold flex justify-between items-center cursor-pointer">
+                  <summary
+                    className="font-bold flex justify-between items-center cursor-pointer"
+                    onClick={(e) => {
+                      e.preventDefault(); // Impede o scroll automático
+                      setExpandedIndex(expandedIndex === index ? null : index);
+                    }}
+                  >
                     {contato.mensagem}
                     <Plus className="text-gray-700 text-3xl" />
                   </summary>

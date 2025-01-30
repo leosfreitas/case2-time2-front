@@ -1,9 +1,9 @@
 import { menuItems } from "../constants/menu-items";
 import styled from "styled-components";
-import { TrendUp } from "@phosphor-icons/react";
 import { logout } from "../../auth/logout/api/logout";
 import { SignOut } from '@phosphor-icons/react';
 import { toast } from "react-hot-toast";
+import { CardsThree } from "@phosphor-icons/react";
 
 export const Menu = () => {
     const handleLogout = async () => {
@@ -20,10 +20,13 @@ export const Menu = () => {
         }
     };
 
+    const goToHome = () => {
+        window.location.href = "/home"; // Redireciona para a home sem deslogar
+    };
+
     return (
         <MenuStyles>
             <h1>
-                <TrendUp weight="bold" className="icon" />
                 <span>TeleConnect</span>
             </h1>
             {menuItems.map((item, index) => (
@@ -32,18 +35,26 @@ export const Menu = () => {
                     {item.label}
                 </a>
             ))}
+            <div className="spacer"></div> {/* Espaçador para empurrar os botões */}
+
+            {/* Ir para o site (Apenas Redireciona) */}
+            <button onClick={goToHome} className="logout-btn">
+                <CardsThree />
+                Ir para o site
+            </button>
+
+            {/* Sair da Conta (Faz Logout) */}
             <button onClick={handleLogout} className="logout-btn">
                 <SignOut />
-                Sair
+                Sair da conta
             </button>
         </MenuStyles>
     );
 };
-
 const MenuStyles = styled.div`
     grid-column: 1;
     grid-row: 1 / span 2;
-    background-color: #1c2434;
+    background-color: #0d2c40;
     padding: 20px 30px;
     border-right: 1px solid #ddd;
     display: flex;
@@ -51,26 +62,14 @@ const MenuStyles = styled.div`
     gap: 20px;
 
     h1 {
-        font-size: 1.8rem;
-        margin-bottom: 25px;
-        margin-left: 10px;
+        font-size: 4rem;
+        margin-top: 2vh;
+        margin-bottom: 4vh;
+        margin-left: 2vh;
         font-weight: 650;
         color: #ffffff;
         display: flex;
         align-items: center;
-        gap: 15px;
-
-        .icon {
-            font-size: 2.0rem;
-            color: #ffffff;
-            background-color: #3c50e0;
-            border-radius: 15%;
-            margin-top: 3px;
-            padding: 2px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
     }
 
     a { 
@@ -79,9 +78,9 @@ const MenuStyles = styled.div`
         gap: 10px;
         padding: 12px 20px;
         border-radius: 8px;
-        font-size: 1.0rem;
-        font-weight: 500;
-        color: #d9dce8;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
         text-decoration: none;
         background: none;
         transition: background-color 0.3s ease, color 0.3s ease;
@@ -91,9 +90,13 @@ const MenuStyles = styled.div`
         }
 
         &:hover {
-            background-color: #3c50e0;
+            background-color: #00a5e8;
             color: #ffffff;
         }
+    }
+
+    .spacer {
+        flex-grow: 1; /* Adicionado para criar espaço flexível */
     }
 
     .logout-btn {
@@ -102,9 +105,9 @@ const MenuStyles = styled.div`
         gap: 10px;
         padding: 12px 20px;
         border-radius: 8px;
-        font-size: 1.0rem;
-        font-weight: 500;
-        color: #d9dce8;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: rgb(255, 255, 255);
         background: none;
         border: none;
         cursor: pointer;
@@ -115,7 +118,7 @@ const MenuStyles = styled.div`
         }
 
         &:hover {
-            background-color: #3c50e0;
+            background-color: #00a5e8;
             color: #ffffff;
         }
     }

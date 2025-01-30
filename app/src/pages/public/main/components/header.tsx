@@ -1,129 +1,204 @@
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { headerItems } from "../constants/header-items";
-import { useNavigate } from "react-router-dom";
+import { checkAdminToken, checkUserToken } from "./api/token";
+import { AdminLogout, UserLogout } from "./api/logout";
 
 export const Header = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-    return (
-        <HeaderStyles>
-            <div className="header-container">
-                <div className="logo">
-                    <h1 className="logo-title">TELECONNECT</h1>
-                </div>
-                <nav>
-                    {headerItems.map((item) => (
-                        <Link
-                            key={item.href}
-                            to={item.href}
-                            className={`nav-link ${location.pathname === item.href ? "active" : ""}`}
-                        >
-                            {item.label}
-                        </Link>
-                    ))}
-                </nav>
-                <div className="auth-buttons">
-                    <button
-                        className="auth-button login"
-                        onClick={() => navigate('/auth/select')}
-                    >
-                        Login
-                    </button>
-                    <button
-                        className="auth-button register"
-                        onClick={() => navigate('/auth/register')}
-                    >
-                        Cadastre-se
-                    </button>
-                </div>
-            </div>
-        </HeaderStyles>
-    );
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userType, setUserType] = useState<"admin" | "user" | undefined>(undefined);
+
+  useEffect(() => {
+    async function verifyToken() {
+      try {
+        await checkAdminToken();
+        setUserType("admin");
+        setIsLoggedIn(true);
+      } catch (err) {
+        try {
+          await checkUserToken();
+          setUserType("user");
+          setIsLoggedIn(true);
+        } catch (err2) {
+          setIsLoggedIn(false);
+          setUserType(undefined);
+        }
+      }
+    }
+
+    verifyToken();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+        if (userType === "admin") {
+            await AdminLogout();
+        } else if (userType === "user") {
+            await UserLogout();
+        }
+
+        setIsLoggedIn(false);
+        setUserType(undefined);
+        
+        navigate("/home", { replace: true });
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 100);
+        
+    } catch (error) {
+        console.error("Erro ao fazer logout:", error);
+    }
+};
+
+  const handleNavigateDashboard = () => {
+    if (userType === "admin") {
+      navigate("/admin/dashboard/home");
+    } else if (userType === "user") {
+      navigate("/user/dashboard/home");
+    }
+  };
+
+  return (
+    <HeaderStyles>
+      <div className="header-container">
+        <div className="logo">
+          <h1 className="logo-title">TELECONNECT</h1>
+        </div>
+
+        <nav>
+          {headerItems.map((item) => (
+            <Link
+              key={item.href}
+              to={item.href}
+              className={`nav-link ${location.pathname === item.href ? "active" : ""}`}
+            >
+              {item.label}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="auth-buttons">
+          {isLoggedIn ? (
+            <>
+              <button
+                className="auth-button login"
+                onClick={handleNavigateDashboard}
+              >
+                Dashboard
+              </button>
+              <button
+                className="auth-button register"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="auth-button login"
+                onClick={() => navigate("/auth/select")}
+              >
+                Login
+              </button>
+              <button
+                className="auth-button register"
+                onClick={() => navigate("/auth/register")}
+              >
+                Cadastre-se
+              </button>
+            </>
+          )}
+        </div>
+      </div>
+    </HeaderStyles>
+  );
 };
 
 const HeaderStyles = styled.header`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 99999;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 18px 0;
+  background-color: transparent;
+
+  .header-container {
+    background-color: #0d2c40;
+    border-radius: 50px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
-    background-color: transparent;
+    padding: 20px 32px;
+    width: 90%;
+    max-width: 1400px;
+  }
 
-    .header-container {
-        background-color: #0d2c40;
-        border-radius: 50px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 20px 32px; /* Aumentado o espaçamento */
-        width: 90%;
-        max-width: 1400px;
+  .logo {
+    .logo-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+    }
+  }
+
+  nav {
+    display: flex;
+    gap: 48px;
+
+    .nav-link {
+      color: white;
+      font-size: 24px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s ease;
+
+      &.active {
+        color: #4fc3f7;
+      }
+    }
+  }
+
+  .auth-buttons {
+    display: flex;
+    gap: 20px;
+
+    .auth-button {
+      padding: 10px 24px;
+      border-radius: 28px;
+      font-size: 18px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.3s ease;
     }
 
-    .logo {
-        .logo-title {
-            font-size: 32px; /* Aumentado para 32px */
-            font-weight: bold;
-            color: white;
-        }
+    .login {
+      background-color: #0d2c40;
+      color: white;
+      border: 2px solid white;
+      &:hover {
+        background-color: #1d4a7c;
+        color: white;
+      }
     }
 
-    nav {
-        display: flex;
-        gap: 48px; /* Aumentado o espaço entre os itens */
-
-        .nav-link {
-            color: white;
-            font-size: 24px; /* Aumentado para 24px */
-            font-weight: 700; /* Aumentado para negrito */
-            text-decoration: none;
-            transition: all 0.3s ease;
-
-            &.active {
-                color: #4fc3f7; /* Azul claro para o item ativo */
-            }
-        }
+    .register {
+      background-color: white;
+      color: #0d2c40;
+      &:hover {
+        background-color: #e0e0e0;
+        color: #0d2c40;
+      }
     }
-
-    .auth-buttons {
-        display: flex;
-        gap: 20px; /* Aumentado o espaço entre os botões */
-
-        .auth-button {
-            padding: 10px 24px; /* Aumentado o padding para refletir os textos maiores */
-            border-radius: 28px;
-            font-size: 18px; /* Aumentado para 18px */
-            font-weight: 700; /* Aumentado para negrito */
-            cursor: pointer;
-            border: none;
-            transition: all 0.3s ease;
-        }
-
-        .login {
-            background-color: #0d2c40;
-            color: white;
-            border: 2px solid white;
-
-            &:hover {
-                background-color: #1d4a7c;
-                color: white;
-            }
-        }
-
-        .register {
-            background-color: white;
-            color: #0d2c40;
-
-            &:hover {
-                background-color: #e0e0e0;
-                color: #0d2c40;
-            }
-        }
-    }
+  }
 `;

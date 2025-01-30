@@ -15,6 +15,8 @@ export const UserRegister = () => {
     phone: "",
   });
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -74,22 +76,37 @@ export const UserRegister = () => {
 
   return (
     <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[70vh] h-auto space-y-8">
-      <h2 className="text-4xl font-extrabold text-center text-white">Cadastro</h2>
-
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-8">
-        {/* Tipo (Alternável) */}
         <div className="col-span-2 text-center">
-          <span className="text-lg font-semibold text-white">
-            Cadastro:
+          <h2 className="text-4xl font-extrabold text-center text-white mb-4">
+            Selecionar Cadastro:
+          </h2>
+          <div className="flex justify-center gap-4">
             <button
               type="button"
-              onClick={toggleTipo}
-              className="text-blue-400 underline ml-2 hover:text-blue-600 transition duration-300"
+              onClick={() => setFormData({ ...formData, tipo: "Pessoa" })}
+              className={`px-6 py-3 rounded-lg text-lg font-bold transition ${
+                formData.tipo === "Pessoa"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-300 text-gray-800 hover:bg-gray-400"
+              }`}
             >
-              {formData.tipo}
+              Pessoa
             </button>
-          </span>
+            <button
+              type="button"
+              onClick={() => setFormData({ ...formData, tipo: "Empresa" })}
+              className={`px-6 py-3 rounded-lg text-lg font-bold transition ${
+                formData.tipo === "Empresa"
+                  ? "bg-blue-500 text-white"
+                  : "bg-gray-300 text-gray-800 hover:bg-gray-400"
+              }`}
+            >
+              Empresa
+            </button>
+          </div>
         </div>
+
 
         {/* Campo Nome */}
         <div>
