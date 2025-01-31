@@ -35,7 +35,7 @@ export const Auth = () => {
                 className="absolute top-4 left-4 text-white hover:text-gray-300 z-10"
                 onClick={handleBack}
             >
-                <CaretDoubleLeft size={100} />
+                <CaretDoubleLeft size={50} />
             </button>
 
             <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-start p-4">

@@ -38,6 +38,7 @@ export const UserLogin = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        style={{ fontSize: '1.5rem' }}
                         placeholder="Digite seu email"
                         className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
@@ -57,6 +58,7 @@ export const UserLogin = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         required
+                        style={{ fontSize: '1.5rem' }}
                         placeholder="Digite sua senha"
                         className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />

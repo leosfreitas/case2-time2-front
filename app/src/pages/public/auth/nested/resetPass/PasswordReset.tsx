@@ -51,6 +51,7 @@ export const PasswordReset = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
+                style={{ fontSize: '1.5rem' }}
                 placeholder="Digite sua nova senha"
                 className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />
@@ -66,6 +67,7 @@ export const PasswordReset = () => {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 required
+                style={{ fontSize: '1.5rem' }}
                 placeholder="Confirme sua nova senha"
                 className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
               />

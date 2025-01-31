@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Plus, Chat, Trash, PaperPlaneRight } from "@phosphor-icons/react";
@@ -20,27 +20,36 @@ type Contato = {
 
 export const Contato = () => {
   const [contatosObj, setContatosObj] = useState<Record<string, Contato[]>>({});
-  const [userIds, setUserIds] = useState<string[]>([]);
-  const [selectedUserId, setSelectedUserId] = useState<string>("");
+  const [emailMap, setEmailMap] = useState<Record<string, string>>({});
+  const [emails, setEmails] = useState<string[]>([]);
+  const [selectedEmail, setSelectedEmail] = useState<string>("");
 
-  // Estado para controlar qual contato está selecionado e se o diálogo está aberto
   const [selectedContato, setSelectedContato] = useState<Contato | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  // Estado que guarda a resposta em edição (por ID de contato)
   const [editingResposta, setEditingResposta] = useState<Record<string, string>>({});
 
   useEffect(() => {
     async function fetchContatos() {
       try {
         const data = await getAllAdminContatos();
-        const userKeys = Object.keys(data);
+        const emailKeys: string[] = [];
+
+        const emailMapping: Record<string, string> = {};
+        for (const userId in data) {
+          const userContatos = data[userId];
+          if (userContatos.length > 0) {
+            emailMapping[userId] = userContatos[0].email; // Obtém o e-mail do primeiro contato
+            emailKeys.push(userContatos[0].email);
+          }
+        }
 
         setContatosObj(data);
-        setUserIds(userKeys);
+        setEmailMap(emailMapping);
+        setEmails(emailKeys);
 
-        if (userKeys.length > 0) {
-          setSelectedUserId(userKeys[0]);
+        if (emailKeys.length > 0) {
+          setSelectedEmail(emailKeys[0]);
         }
       } catch (error) {
         console.error("Erro ao buscar contatos:", error);
@@ -51,22 +60,21 @@ export const Contato = () => {
     fetchContatos();
   }, []);
 
-  const contatos = selectedUserId ? contatosObj[selectedUserId] || [] : [];
+  const contatos = selectedEmail
+    ? contatosObj[Object.keys(emailMap).find((key) => emailMap[key] === selectedEmail) || ""] || []
+    : [];
 
-  // Abre o diálogo e prepara o estado de edição de resposta
   function handleOpenDialog(contato: Contato) {
     setSelectedContato(contato);
     setEditingResposta({ [contato._id]: contato.resposta || "" });
     setIsDialogOpen(true);
   }
 
-  // Fecha o diálogo e limpa contato selecionado
   function handleCloseDialog() {
     setIsDialogOpen(false);
     setSelectedContato(null);
   }
 
-  // Salvar edição da resposta
   async function handleEditResposta(contatoId: string) {
     const respostaAtual = editingResposta[contatoId];
     if (!respostaAtual) {
@@ -78,18 +86,25 @@ export const Contato = () => {
       await editAdminContato(contatoId, { resposta: respostaAtual });
       toast.success("Resposta atualizada com sucesso!");
 
-      // Atualiza a lista de contatos
       const updatedObj = await getAllAdminContatos();
       setContatosObj(updatedObj);
 
-      // Ajusta chaves e usuário selecionado, se necessário
-      const userKeys = Object.keys(updatedObj);
-      setUserIds(userKeys);
-      if (!updatedObj[selectedUserId]) {
-        setSelectedUserId(userKeys[0] || "");
+      const updatedEmailMap: Record<string, string> = {};
+      const updatedEmailKeys: string[] = [];
+      for (const userId in updatedObj) {
+        const userContatos = updatedObj[userId];
+        if (userContatos.length > 0) {
+          updatedEmailMap[userId] = userContatos[0].email;
+          updatedEmailKeys.push(userContatos[0].email);
+        }
       }
 
-      // Limpa a resposta do estado de edição e fecha o diálogo
+      setEmailMap(updatedEmailMap);
+      setEmails(updatedEmailKeys);
+      if (!updatedEmailMap[selectedEmail]) {
+        setSelectedEmail(updatedEmailKeys[0] || "");
+      }
+
       setEditingResposta((prev) => ({
         ...prev,
         [contatoId]: "",
@@ -101,21 +116,28 @@ export const Contato = () => {
     }
   }
 
-  // Excluir um contato
   async function handleDeleteContato(contatoId: string) {
     try {
       await deleteAdminContato(contatoId);
       toast.success("Contato deletado com sucesso!");
 
-      // Atualiza a lista de contatos
       const updatedObj = await getAllAdminContatos();
       setContatosObj(updatedObj);
 
-      const userKeys = Object.keys(updatedObj);
-      setUserIds(userKeys);
+      const updatedEmailMap: Record<string, string> = {};
+      const updatedEmailKeys: string[] = [];
+      for (const userId in updatedObj) {
+        const userContatos = updatedObj[userId];
+        if (userContatos.length > 0) {
+          updatedEmailMap[userId] = userContatos[0].email;
+          updatedEmailKeys.push(userContatos[0].email);
+        }
+      }
 
-      if (!updatedObj[selectedUserId]) {
-        setSelectedUserId(userKeys[0] || "");
+      setEmailMap(updatedEmailMap);
+      setEmails(updatedEmailKeys);
+      if (!updatedEmailMap[selectedEmail]) {
+        setSelectedEmail(updatedEmailKeys[0] || "");
       }
 
       handleCloseDialog();
@@ -127,7 +149,6 @@ export const Contato = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-6 py-[5vh]">
-      {/* Título mantido em text-6xl */}
       <h1 className="text-6xl font-bold mb-12">Perguntas do cliente</h1>
 
       <div className="mb-8">
@@ -136,15 +157,15 @@ export const Contato = () => {
         </label>
         <select
           className="border-2 border-gray-300 rounded-md p-3 text-3xl"
-          value={selectedUserId}
-          onChange={(e) => setSelectedUserId(e.target.value)}
+          value={selectedEmail}
+          onChange={(e) => setSelectedEmail(e.target.value)}
         >
-          {userIds.length === 0 && (
-            <option value="">Nenhum usuário encontrado</option>
+          {emails.length === 0 && (
+            <option value="">Nenhum cliente encontrado</option>
           )}
-          {userIds.map((userId) => (
-            <option key={userId} value={userId}>
-              {userId}
+          {emails.map((email) => (
+            <option key={email} value={email}>
+              {email}
             </option>
           ))}
         </select>
@@ -152,12 +173,12 @@ export const Contato = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
         <div className="col-span-2 space-y-6">
-          {contatos.slice(0, 5).length === 0 ? (
+          {contatos.length === 0 ? (
             <p className="text-3xl text-gray-600">
-              Nenhuma pergunta para esse usuário.
+              Nenhuma pergunta para esse cliente.
             </p>
           ) : (
-            contatos.slice(0, 5).map((contato) => (
+            contatos.map((contato) => (
               <div
                 key={contato._id}
                 className="transition-all duration-300 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 flex items-center justify-between"
@@ -193,7 +214,6 @@ export const Contato = () => {
         </div>
       </div>
 
-      {/* Dialog para exibir/editar/excluir o contato selecionado */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl p-8 bg-white rounded-lg shadow-lg">
           <DialogHeader>
@@ -238,7 +258,6 @@ export const Contato = () => {
                   <Trash size={30} />
                   Deletar
                 </Button>
-
               </div>
             </div>
           )}

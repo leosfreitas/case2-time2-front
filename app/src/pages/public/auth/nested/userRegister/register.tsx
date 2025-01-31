@@ -117,6 +117,7 @@ export const UserRegister = () => {
             value={formData.name}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder="Digite seu nome completo"
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -134,6 +135,7 @@ export const UserRegister = () => {
             value={formData.email}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder="Digite seu email"
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -154,6 +156,7 @@ export const UserRegister = () => {
             value={formData.tipo === "Pessoa" ? formData.cpf : formData.cnpj}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder={`Digite seu ${formData.tipo === "Pessoa" ? "CPF" : "CNPJ"}`}
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -171,6 +174,7 @@ export const UserRegister = () => {
             value={formData.phone}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder="Digite seu telefone"
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -188,6 +192,7 @@ export const UserRegister = () => {
             value={formData.password}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder="Digite sua senha"
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
@@ -205,6 +210,7 @@ export const UserRegister = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
+            style={{ fontSize: '1.5rem' }}
             placeholder="Digite novamente sua senha"
             className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
           />
