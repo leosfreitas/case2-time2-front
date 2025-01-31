@@ -17,7 +17,6 @@ import { deletePacote } from "./api/deletePacote";
 import { CreatePacoteDTO, createPacote } from "./api/pacote";
 import { getAllPacotes } from "./api/getPacotes";
 
-/** Auxiliares para formatar chaves/valores (opcional, para detalhes) */
 function formatKey(key: string) {
   return key
     .replace(/_/g, " ")
@@ -59,7 +58,6 @@ export const Pacotes: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  // Buscar pacotes
   useEffect(() => {
     async function fetchPacotes() {
       try {
@@ -72,7 +70,6 @@ export const Pacotes: React.FC = () => {
     fetchPacotes();
   }, []);
 
-  // Filtrar pacotes com base no tipo de cliente
   const filteredPacotes = pacotes.filter((p) => p.cliente === filter);
 
   const toggleTipo = (tipo: "Fixa" | "Residencial" | "Movel") => {
@@ -83,13 +80,11 @@ export const Pacotes: React.FC = () => {
     }
   };
 
-  /** Abrir detalhes do pacote */
   const handleViewDetails = (pacote: any) => {
     setSelectedPacote(pacote);
     setIsDetailsDialogOpen(true);
   };
 
-  /** Submeter criação de pacote */
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -122,11 +117,9 @@ export const Pacotes: React.FC = () => {
     try {
       const response = await createPacote(data);
       toast.success(`Pacote criado com sucesso! ID: ${response._id || "?"}`);
-      // Atualiza pacotes
       const updated = await getAllPacotes();
       setPacotes(updated);
 
-      // Fecha e limpa
       setIsCreateDialogOpen(false);
       setCliente("Pessoa");
       setPreco("");
@@ -144,15 +137,10 @@ export const Pacotes: React.FC = () => {
     }
   };
 
-  /** Deletar pacote (placeholder) */
   const handleDeletePacote = (id: string) => {
-    // Você implementará a requisição real depois.
-    // Exemplo de placeholder:
-
     deletePacote(id)
       .then(() => {
         toast.success(`Pacote ${id} deletado com sucesso.`);
-        // Atualiza pacotes
         const updated = pacotes.filter((p) => p._id !== id);
         setPacotes(updated);
         setIsDetailsDialogOpen(false);
@@ -299,8 +287,26 @@ export const Pacotes: React.FC = () => {
 
       {/* Dialog de Criar Pacote */}
       <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-        {/* Aumentei o max-w e fiz um layout em colunas para ficar mais horizontal */}
-        <DialogContent className="max-w-6xl p-8 bg-white rounded-lg shadow-lg">
+        {/*
+          Responsivo aqui:
+          - Em telas médias/grandes (md:), usamos max-w-6xl e padding de 8.
+          - Em telas pequenas, deixamos max-w-full e padding de 4, 
+            definimos overflow-y-auto e max-h-[80vh] para rolagem.
+        */}
+        <DialogContent
+          className="
+            md:max-w-6xl 
+            max-w-full 
+            md:p-8 
+            p-4 
+            bg-white 
+            rounded-lg 
+            shadow-lg
+            overflow-y-auto 
+            max-h-[80vh] 
+            md:max-h-none
+          "
+        >
           <DialogHeader>
             <DialogTitle className="text-4xl font-bold text-center">
               Criar Pacote
@@ -319,7 +325,6 @@ export const Pacotes: React.FC = () => {
             <div className="flex flex-col md:flex-row gap-8">
               {/* Coluna 1 */}
               <div className="flex-1 space-y-6">
-                {/* Cliente */}
                 <div className="space-y-2">
                   <Label className="text-2xl font-semibold">Cliente</Label>
                   <div className="flex items-center space-x-6">
@@ -348,7 +353,6 @@ export const Pacotes: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Nome do pacote */}
                 <div className="space-y-2">
                   <Label className="text-2xl font-semibold">Nome do Pacote</Label>
                   <Input
@@ -361,7 +365,6 @@ export const Pacotes: React.FC = () => {
                   />
                 </div>
 
-                {/* Preço */}
                 <div className="space-y-2">
                   <Label className="text-2xl font-semibold">Preço (R$)</Label>
                   <Input
@@ -374,7 +377,6 @@ export const Pacotes: React.FC = () => {
                   />
                 </div>
 
-                {/* Cortesia */}
                 <div className="space-y-2">
                   <Label className="text-2xl font-semibold">Cortesia</Label>
                   <Input
@@ -390,7 +392,6 @@ export const Pacotes: React.FC = () => {
 
               {/* Coluna 2 */}
               <div className="flex-1 space-y-6">
-                {/* Tipo de Pacote */}
                 <div className="space-y-2">
                   <Label className="text-2xl font-semibold">Tipo de Pacote</Label>
                   <div className="flex items-center space-x-6">
@@ -411,8 +412,15 @@ export const Pacotes: React.FC = () => {
                 </div>
 
                 {/* Detalhes Residencial */}
-                <div className={`p-4 rounded bg-gray-50 transition-all duration-150 
-                  ${tipos.includes("Residencial") ? "opacity-100" : "opacity-40 pointer-events-none"}`}>
+                <div
+                  className={`
+                    p-4 rounded bg-gray-50 transition-all duration-150
+                    ${tipos.includes("Residencial")
+                      ? "opacity-100"
+                      : "opacity-40 pointer-events-none"
+                    }
+                  `}
+                >
                   <h3 className="text-2xl font-semibold text-gray-700 mb-4">
                     Detalhes Residencial
                   </h3>
@@ -444,7 +452,7 @@ export const Pacotes: React.FC = () => {
                         </SelectTrigger>
                         <SelectContent
                           className="bg-white border border-gray-300 text-2xl"
-                          style={{ width: "100%" }} 
+                          style={{ width: "100%" }}
                         >
                           <SelectItem value="banda larga" className="text-2xl py-4 px-6">
                             Banda Larga
@@ -460,9 +468,13 @@ export const Pacotes: React.FC = () => {
 
                 {/* Detalhes Móvel */}
                 <div
-                  className={`p-4 rounded bg-gray-50 transition-all duration-150 ${
-                    tipos.includes("Movel") ? "opacity-100" : "opacity-40 pointer-events-none"
-                  }`}
+                  className={`
+                    p-4 rounded bg-gray-50 transition-all duration-150
+                    ${tipos.includes("Movel")
+                      ? "opacity-100"
+                      : "opacity-40 pointer-events-none"
+                    }
+                  `}
                 >
                   <h3 className="text-2xl font-semibold text-gray-700 mb-4">
                     Detalhes Móvel
@@ -476,7 +488,7 @@ export const Pacotes: React.FC = () => {
                         onChange={(e) => setMovelTamanho(e.target.value)}
                         placeholder="Ex: 10GB"
                         className="text-2xl py-4 px-6 border border-gray-300 rounded-lg"
-                        style={{ fontSize: "1.5rem", height: "56px" }} // Ajustes para altura e fonte
+                        style={{ fontSize: "1.5rem", height: "56px" }}
                       />
                     </div>
                     <div className="space-y-2">
@@ -487,13 +499,13 @@ export const Pacotes: React.FC = () => {
                       >
                         <SelectTrigger
                           className="w-full bg-white border border-gray-300 text-2xl py-4 px-6 rounded-lg"
-                          style={{ fontSize: "1.5rem", height: "56px" }} // Ajustes para altura e fonte
+                          style={{ fontSize: "1.5rem", height: "56px" }}
                         >
                           <SelectValue placeholder="Selecione a rede" />
                         </SelectTrigger>
                         <SelectContent
                           className="bg-white border border-gray-300 text-2xl rounded-lg shadow-lg"
-                          style={{ width: "100%", minWidth: "250px", maxWidth: "400px" }} // Ajuste de largura
+                          style={{ width: "100%", minWidth: "250px", maxWidth: "400px" }}
                         >
                           <SelectItem value="4g" className="text-2xl py-4 px-6">
                             4G
@@ -509,7 +521,6 @@ export const Pacotes: React.FC = () => {
               </div>
             </div>
 
-            {/* Botão de envio */}
             <Button
               type="submit"
               disabled={isSubmitting}

@@ -39,7 +39,7 @@ export const Contato = () => {
         for (const userId in data) {
           const userContatos = data[userId];
           if (userContatos.length > 0) {
-            emailMapping[userId] = userContatos[0].email; // Obtém o e-mail do primeiro contato
+            emailMapping[userId] = userContatos[0].email;
             emailKeys.push(userContatos[0].email);
           }
         }
@@ -148,91 +148,170 @@ export const Contato = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-[5vh]">
-      <h1 className="text-6xl font-bold mb-12">Perguntas do cliente</h1>
+    <>
+      {/* Ajustes no container: não muda no mobile, mas dá mais padding e tamanho no md: */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16">
+        {/* Aumentamos o tamanho no desktop (md:) para 7xl (ou 6xl se quiser um pouco menor) */}
+        <h1 className="text-3xl sm:text-4xl md:text-7xl font-bold mb-8 sm:mb-12 text-gray-800">
+          Perguntas do cliente
+        </h1>
 
-      <div className="mb-8">
-        <label className="block text-3xl font-bold mb-2">
-          Selecione o cliente:
-        </label>
-        <select
-          className="border-2 border-gray-300 rounded-md p-3 text-3xl"
-          value={selectedEmail}
-          onChange={(e) => setSelectedEmail(e.target.value)}
-        >
-          {emails.length === 0 && (
-            <option value="">Nenhum cliente encontrado</option>
-          )}
-          {emails.map((email) => (
-            <option key={email} value={email}>
-              {email}
-            </option>
-          ))}
-        </select>
-      </div>
+        <div className="mb-8">
+          {/* label: md:text-2xl => agora md:text-3xl */}
+          <label className="block text-base sm:text-lg md:text-3xl font-bold text-gray-800 mb-2">
+            Selecione o cliente:
+          </label>
+          <select
+            className="border-2 border-gray-300 rounded-md p-2 sm:p-3 text-base sm:text-lg md:text-2xl"
+            value={selectedEmail}
+            onChange={(e) => setSelectedEmail(e.target.value)}
+          >
+            {emails.length === 0 && (
+              <option value="">Nenhum cliente encontrado</option>
+            )}
+            {emails.map((email) => (
+              <option key={email} value={email}>
+                {email}
+              </option>
+            ))}
+          </select>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="col-span-2 space-y-6">
-          {contatos.length === 0 ? (
-            <p className="text-3xl text-gray-600">
-              Nenhuma pergunta para esse cliente.
-            </p>
-          ) : (
-            contatos.map((contato) => (
-              <div
-                key={contato._id}
-                className="transition-all duration-300 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 flex items-center justify-between"
-              >
-                <div className="flex-1 text-3xl">
-                  <p className="font-bold mb-2">{contato.mensagem}</p>
-                  <p className="text-gray-600">
-                    {contato.resposta
-                      ? `Resposta: ${contato.resposta}`
-                      : "Sem resposta no momento"}
-                  </p>
-                </div>
-                <Button
-                  className="flex items-center gap-2 ml-4 bg-blue-500 text-white text-3xl px-6 py-4"
-                  onClick={() => handleOpenDialog(contato)}
+        {/* Aumentei o gap em md: (sm:gap-12 -> md:gap-16), se quiser */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12 md:gap-16">
+          <div className="col-span-2 space-y-4 sm:space-y-6">
+            {contatos.length === 0 ? (
+              <p className="text-base sm:text-lg md:text-2xl text-gray-600">
+                Nenhuma pergunta para esse cliente.
+              </p>
+            ) : (
+              contatos.map((contato) => (
+                <div
+                  key={contato._id}
+                  className="
+                    transition-all 
+                    duration-300 
+                    bg-white 
+                    border-2 
+                    border-gray-300 
+                    rounded-lg 
+                    shadow-lg 
+                    p-4 
+                    sm:p-6 
+                    flex 
+                    items-center 
+                    justify-between
+                  "
                 >
-                  <Plus size={28} />
-                  Detalhes
-                </Button>
-              </div>
-            ))
-          )}
-        </div>
+                  <div className="flex-1 text-base sm:text-lg md:text-2xl text-gray-800">
+                    <p className="font-bold mb-2">{contato.mensagem}</p>
+                    <p className="text-gray-600">
+                      {contato.resposta
+                        ? `Resposta: ${contato.resposta}`
+                        : "Sem resposta no momento"}
+                    </p>
+                  </div>
 
-        <div
-          className="bg-white shadow-lg border-2 border-gray-300 rounded-lg p-8 flex flex-col items-center text-center"
-          style={{ maxHeight: "20vh" }}
-        >
-          <Chat className="text-6xl text-black w-20 h-20 mb-4" />
-          <p className="text-3xl text-gray-700">
-            Responda as perguntas feitas aqui nessa página
-          </p>
+                  <Button
+                    className="
+                      flex 
+                      items-center 
+                      gap-2 
+                      ml-4 
+                      bg-blue-500 
+                      text-white 
+                      text-base 
+                      sm:text-lg 
+                      md:text-2xl 
+                      px-4 
+                      sm:px-6 
+                      py-2 
+                      sm:py-3
+                    "
+                    onClick={() => handleOpenDialog(contato)}
+                  >
+                    <Plus size={24} />
+                    Detalhes
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
+
+          {/* Card lateral */}
+          <div
+            className="
+              hidden 
+              sm:flex 
+              flex-col 
+              items-center 
+              text-center 
+              bg-white 
+              shadow-lg 
+              border-2 
+              border-gray-300 
+              rounded-lg 
+              p-6 
+              sm:p-8
+            "
+          >
+            <Chat className="text-black w-12 h-12 sm:w-16 sm:h-16 mb-4" />
+            <p className="text-base sm:text-lg md:text-2xl text-gray-700">
+              Responda as perguntas feitas
+              <br />
+              aqui nessa página
+            </p>
+          </div>
         </div>
       </div>
 
+      {/* Diálogo: aumenta um pouco no desktop (md:max-w-3xl ou algo maior) */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl p-8 bg-white rounded-lg shadow-lg">
+        <DialogContent
+          className="
+            w-[90%]
+            max-w-sm
+            sm:max-w-md
+            md:max-w-3xl
+            bg-white
+            rounded-lg
+            shadow-lg
+            p-4
+            sm:p-8
+            overflow-auto
+          "
+        >
           <DialogHeader>
-            <DialogTitle className="text-5xl">
+            {/* Título ainda maior no desktop: md:text-6xl */}
+            <DialogTitle className="text-2xl sm:text-3xl md:text-6xl text-gray-900 font-bold">
               {selectedContato?.mensagem || "Detalhes da Pergunta"}
             </DialogTitle>
           </DialogHeader>
 
           {selectedContato && (
-            <div className="mt-6 text-3xl">
+            <div className="mt-4 sm:mt-6 text-base sm:text-lg md:text-2xl">
               <p className="mb-4">
                 <strong>Email do usuário:</strong> {selectedContato.email}
               </p>
 
-              <p className="mb-4">
+              <p className="mb-2">
                 <strong>Resposta:</strong>
               </p>
               <textarea
-                className="w-full mt-1 rounded-lg border-2 border-gray-300 px-4 py-3 text-3xl focus:border-blue-300 focus:ring-blue-300"
+                className="
+                  w-full 
+                  mt-1 
+                  rounded-lg 
+                  border-2 
+                  border-gray-300 
+                  px-3 
+                  py-2 
+                  text-base 
+                  sm:text-lg 
+                  md:text-2xl 
+                  focus:border-blue-300 
+                  focus:ring-blue-300
+                "
                 rows={3}
                 value={editingResposta[selectedContato._id] || ""}
                 onChange={(e) =>
@@ -244,18 +323,44 @@ export const Contato = () => {
               />
               <div className="flex gap-4 mt-8">
                 <Button
-                  className="bg-blue-500 text-white flex items-center gap-2 text-3xl px-6 py-3"
+                  className="
+                    bg-blue-500 
+                    text-white 
+                    flex 
+                    items-center 
+                    gap-2 
+                    text-base 
+                    sm:text-lg 
+                    md:text-2xl 
+                    px-4 
+                    sm:px-6 
+                    py-2 
+                    sm:py-3
+                  "
                   onClick={() => handleEditResposta(selectedContato._id)}
                 >
-                  <PaperPlaneRight size={30} />
+                  <PaperPlaneRight size={24} />
                   Salvar Resposta
                 </Button>
 
                 <Button
-                  className="bg-red-500 text-white flex items-center gap-2 text-3xl px-6 py-3"
+                  className="
+                    bg-red-500 
+                    text-white 
+                    flex 
+                    items-center 
+                    gap-2 
+                    text-base 
+                    sm:text-lg 
+                    md:text-2xl 
+                    px-4 
+                    sm:px-6 
+                    py-2 
+                    sm:py-3
+                  "
                   onClick={() => handleDeleteContato(selectedContato._id)}
                 >
-                  <Trash size={30} />
+                  <Trash size={24} />
                   Deletar
                 </Button>
               </div>
@@ -263,6 +368,6 @@ export const Contato = () => {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };

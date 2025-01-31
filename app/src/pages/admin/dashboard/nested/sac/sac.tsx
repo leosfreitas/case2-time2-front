@@ -10,7 +10,6 @@ import {
   deleteSac,
 } from "./api/sacRequests";
 
-// Se quiser tipar melhor, você pode ajustar essa interface
 type Sac = {
   _id: string;
   email?: string;
@@ -24,12 +23,11 @@ export const Sac = () => {
   const [selectedSac, setSelectedSac] = useState<Sac | null>(null);
   const [editingResposta, setEditingResposta] = useState<Record<string, string>>({});
 
-  // Busca inicial dos SACs (apenas 5 mais recentes)
   useEffect(() => {
     async function fetchSacs() {
       try {
         const allSacs = await getAllSacs();
-        // Garante que seja array e pega somente 5
+        // Pega somente os 5 mais recentes, se for o desejado
         setSacs(Array.isArray(allSacs) ? allSacs.slice(0, 5) : []);
       } catch (error) {
         console.error("Erro ao buscar SACs:", error);
@@ -37,27 +35,22 @@ export const Sac = () => {
         setSacs([]);
       }
     }
-
     fetchSacs();
   }, []);
 
-  // Abre o diálogo para exibir detalhes/editar/deletar
   function handleOpenDialog(sac: Sac) {
     setSelectedSac(sac);
     setEditingResposta({ [sac._id]: sac.resposta || "" });
     setIsDialogOpen(true);
   }
 
-  // Fecha o diálogo
   function handleCloseDialog() {
     setIsDialogOpen(false);
     setSelectedSac(null);
   }
 
-  // Salvar a resposta editada
   async function handleEditResposta(sacId: string) {
     const respostaAtual = editingResposta[sacId];
-
     if (!respostaAtual) {
       toast.error("Digite uma resposta antes de salvar.");
       return;
@@ -66,16 +59,10 @@ export const Sac = () => {
     try {
       await editSac(sacId, { resposta: respostaAtual });
       toast.success("Resposta atualizada com sucesso!");
-
-      // Recarrega a lista após a edição
+      // Recarrega ou atualiza a lista
       const updatedSacs = await getAllSacs();
       setSacs(Array.isArray(updatedSacs) ? updatedSacs.slice(0, 5) : []);
-
-      // Limpa a resposta do estado e fecha o diálogo
-      setEditingResposta((prev) => ({
-        ...prev,
-        [sacId]: "",
-      }));
+      setEditingResposta((prev) => ({ ...prev, [sacId]: "" }));
       handleCloseDialog();
     } catch (error) {
       console.error("Erro ao editar SAC:", error);
@@ -83,13 +70,10 @@ export const Sac = () => {
     }
   }
 
-  // Deletar um SAC
   async function handleDeleteSac(sacId: string) {
     try {
       await deleteSac(sacId);
       toast.success("SAC deletado com sucesso!");
-
-      // Atualiza a lista removendo o item deletado sem recarregar tudo
       setSacs((prev) => prev.filter((item) => item._id !== sacId));
       handleCloseDialog();
     } catch (error) {
@@ -99,69 +83,170 @@ export const Sac = () => {
   }
 
   return (
-    <div className="max-w-6xl mx-auto px-6 py-[5vh]">
-      {/* Título principal, em estilo grande */}
-      <h1 className="text-6xl font-bold mb-12">Perguntas mais recentes</h1>
+    <>
+      {/* 
+        Container responsivo:
+        - Em telas menores (mobile), px-4 e py-8
+        - Em sm (tablets), px-6 e py-12
+        - Em md (desktops), padding ainda maior
+      */}
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12 md:py-16">
+        {/* 
+          Título responsivo:
+          - text-3xl em telas pequenas,
+          - text-4xl em sm,
+          - text-6xl em md (mantendo seu original no desktop).
+        */}
+        <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold mb-8 sm:mb-12 text-gray-800">
+          Perguntas mais recentes
+        </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-        <div className="col-span-2 space-y-6">
-          {sacs.length === 0 ? (
-            <p className="text-3xl text-gray-600">
-              Nenhuma pergunta feita ainda.
-            </p>
-          ) : (
-            sacs.map((sac) => (
-              <div
-                key={sac._id}
-                className="transition-all duration-300 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 flex items-center justify-between"
-              >
-                <div className="flex-1 text-3xl">
-                  <p className="font-bold mb-2">{sac.mensagem}</p>
-                </div>
-                <Button
-                  className="flex items-center gap-2 ml-4 bg-blue-500 text-white text-3xl px-6 py-4"
-                  onClick={() => handleOpenDialog(sac)}
+        {/* Grid responsivo:
+           - 1 coluna no mobile;
+           - 3 colunas a partir de md, sendo col-span-2 e 1 col de destaque. 
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-12">
+          {/* Parte principal: col-span-2 em telas md+ */}
+          <div className="col-span-2 space-y-4 sm:space-y-6">
+            {sacs.length === 0 ? (
+              <p className="text-base sm:text-lg md:text-2xl text-gray-600">
+                Nenhuma pergunta feita ainda.
+              </p>
+            ) : (
+              sacs.map((sac) => (
+                <div
+                  key={sac._id}
+                  className="
+                    transition-all 
+                    duration-300 
+                    bg-white 
+                    border-2 
+                    border-gray-300 
+                    rounded-lg 
+                    shadow-lg 
+                    p-4 
+                    sm:p-6 
+                    flex 
+                    items-center 
+                    justify-between
+                  "
                 >
-                  <Plus size={28} />
-                  Responder
-                </Button>
-              </div>
-            ))
-          )}
-        </div>
+                  {/* Texto responsivo: base no mobile, lg em tablets, 2xl em desktop */}
+                  <div className="flex-1 text-base sm:text-lg md:text-2xl">
+                    <p className="font-bold mb-2">{sac.mensagem}</p>
+                  </div>
+                  {/* Botão responsivo */}
+                  <Button
+                    className="
+                      flex 
+                      items-center 
+                      gap-2 
+                      ml-4 
+                      bg-blue-500 
+                      text-white 
+                      text-base 
+                      sm:text-lg 
+                      md:text-2xl 
+                      px-4 
+                      sm:px-6 
+                      py-2 
+                      sm:py-3
+                    "
+                    onClick={() => handleOpenDialog(sac)}
+                  >
+                    <Plus size={24} />
+                    Responder
+                  </Button>
+                </div>
+              ))
+            )}
+          </div>
 
-        <div
-          className="bg-white shadow-lg border-2 border-gray-300 rounded-lg p-8 flex flex-col items-center text-center"
-          style={{ maxHeight: "20vh" }}
-        >
-          <Chat className="text-6xl text-black w-20 h-20 mb-4" />
-          <p className="text-3xl text-gray-700">
-            Responda as perguntas feitas aqui nessa página
-          </p>
+          {/* Card lateral:
+              Mantemos a mesma ideia, mas tornamos as fontes menores em mobile e maiores no desktop
+          */}
+          <div
+            className="
+              hidden 
+              md:flex
+              bg-white 
+              shadow-lg 
+              border-2 
+              border-gray-300 
+              rounded-lg 
+              p-6 
+              sm:p-8 
+              flex-col 
+              items-center 
+              text-center
+            "
+            style={{ maxHeight: "20vh" }}
+          >
+            <Chat className="text-black w-12 h-12 sm:w-16 sm:h-16 mb-4" />
+            <p className="text-base sm:text-lg md:text-2xl text-gray-700">
+              Responda as perguntas feitas
+              <br />
+              aqui nessa página
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* Dialog para exibir e editar/deletar o SAC selecionado */}
+      {/* Dialog de detalhes/edição/deleção */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl p-8 bg-white rounded-lg shadow-lg">
+        {/*
+          Conteúdo do dialog responsivo:
+          - Em telas bem pequenas: w-[90%], max-w-sm
+          - Em sm: max-w-md
+          - Em md (desktop): max-w-2xl (ou pode aumentar se quiser)
+          - overflow-auto garante rolagem caso o conteúdo passe do tamanho da tela
+        */}
+        <DialogContent
+          className="
+            w-[90%] 
+            max-w-sm
+            sm:max-w-md 
+            md:max-w-2xl
+            p-4
+            sm:p-8
+            bg-white
+            rounded-lg
+            shadow-lg
+            overflow-auto
+          "
+        >
           <DialogHeader>
-            <DialogTitle className="text-5xl">
+            {/* Título responsivo: 2xl no desktop, menor em mobile */}
+            <DialogTitle className="text-2xl sm:text-3xl md:text-5xl text-gray-900 font-bold">
               {selectedSac?.mensagem || "Detalhes da Pergunta"}
             </DialogTitle>
           </DialogHeader>
 
           {selectedSac && (
-            <div className="mt-6 text-3xl">
+            <div className="mt-4 sm:mt-6 text-base sm:text-lg md:text-2xl">
               <p className="mb-4">
                 <strong>Email do usuário:</strong>{" "}
                 {selectedSac.email || "Não informado"}
               </p>
 
-              <p className="mb-4">
+              <p className="mb-2">
                 <strong>Resposta:</strong>
               </p>
               <textarea
-                className="w-full mt-1 rounded-lg border-2 border-gray-300 px-4 py-3 text-3xl focus:border-blue-300 focus:ring-blue-300"
+                className="
+                  w-full 
+                  mt-1 
+                  rounded-lg 
+                  border-2 
+                  border-gray-300 
+                  px-3 
+                  py-2 
+                  text-base 
+                  sm:text-lg 
+                  md:text-2xl 
+                  focus:border-blue-300 
+                  focus:ring-blue-300
+                "
                 rows={3}
                 value={editingResposta[selectedSac._id] || ""}
                 onChange={(e) =>
@@ -171,20 +256,47 @@ export const Sac = () => {
                   }))
                 }
               />
+
               <div className="flex gap-4 mt-8">
                 <Button
-                  className="bg-blue-500 text-white flex items-center gap-2 text-3xl px-6 py-3"
+                  className="
+                    bg-blue-500 
+                    text-white 
+                    flex 
+                    items-center 
+                    gap-2 
+                    text-base 
+                    sm:text-lg 
+                    md:text-2xl 
+                    px-4 
+                    sm:px-6 
+                    py-2 
+                    sm:py-3
+                  "
                   onClick={() => handleEditResposta(selectedSac._id)}
                 >
-                  <PaperPlaneRight size={30} />
+                  <PaperPlaneRight size={24} />
                   Salvar Resposta
                 </Button>
 
                 <Button
-                  className="bg-red-500 text-white flex items-center gap-2 text-3xl px-6 py-3"
+                  className="
+                    bg-red-500 
+                    text-white 
+                    flex 
+                    items-center 
+                    gap-2 
+                    text-base 
+                    sm:text-lg 
+                    md:text-2xl 
+                    px-4 
+                    sm:px-6 
+                    py-2 
+                    sm:py-3
+                  "
                   onClick={() => handleDeleteSac(selectedSac._id)}
                 >
-                  <Trash size={30} />
+                  <Trash size={24} />
                   Deletar
                 </Button>
               </div>
@@ -192,6 +304,6 @@ export const Sac = () => {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };

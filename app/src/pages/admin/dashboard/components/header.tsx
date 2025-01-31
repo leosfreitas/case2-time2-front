@@ -11,10 +11,28 @@ import {
   BreadcrumbSeparator,
 } from "../../../../components/ui/breadcrumb";
 
-export function Header() {
+/* Tipagem para receber a função de toggle do menu */
+interface HeaderProps {
+  onToggleMenu?: () => void;
+}
+
+export function Header({ onToggleMenu }: HeaderProps) {
   const matches = useMatches();
   const [userName, setUserName] = useState<string | null>(null);
 
+  useEffect(() => {
+    async function fetchUserNameData() {
+      try {
+        const response = await getUserName();
+        setUserName(response.user_name);
+      } catch (error) {
+        console.error("Erro ao obter nome do usuário:", error);
+      }
+    }
+    fetchUserNameData();
+  }, []);
+
+  // Rotas específicas do Admin + rotas genéricas
   const routeLabels: Record<string, string> = {
     dashboard: "Dashboard",
     home: "Página Inicial",
@@ -22,57 +40,67 @@ export function Header() {
     budget: "Orçamento",
     profile: "Perfil",
     history: "Histórico",
+    users: "Usuários",
+    sac: "SAC",
+    pacotes: "Pacotes",
+    contato: "Contato",
   };
 
-  const capitalizeFirstLetter = (string: string): string =>
-    string.charAt(0).toUpperCase() + string.slice(1);
-
-  useEffect(() => {
-    const fetchUserName = async () => {
-      try {
-        const response = await getUserName();
-        setUserName(response.user_name); // Atualiza o estado com o nome do usuário
-      } catch (error) {
-        console.error("Erro ao obter nome do usuário:", error);
-      }
-    };
-
-    fetchUserName();
-  }, []);
+  const capitalizeFirstLetter = (str: string): string =>
+    str.charAt(0).toUpperCase() + str.slice(1);
 
   return (
     <HeaderStyle>
+      {/* Breadcrumbs horizontal */}
+      <div className="breadcrumb-container">
         <Breadcrumb>
-          <BreadcrumbList>
+          <BreadcrumbList className="breadcrumb-horizontal">
             {matches.map((match, index) => {
               const key = match.pathname.split("/").pop() || "";
-              const breadcrumbLabel = routeLabels[key] || capitalizeFirstLetter(key);
+              const breadcrumbLabel =
+                routeLabels[key] || capitalizeFirstLetter(key);
 
               return (
-                <div
-                  key={index}
-                  className="flex items-center gap-2 text-4xl" // Aumentando o tamanho da fonte e o peso
-                  >
+                <React.Fragment key={index}>
                   <BreadcrumbItem>
                     <BreadcrumbLink
                       href={match.pathname}
-                      style={{ fontWeight: "500" }}
+                      className="breadcrumb-link"
                     >
                       {breadcrumbLabel}
                     </BreadcrumbLink>
                   </BreadcrumbItem>
-                  {index < matches.length - 1 && <BreadcrumbSeparator className="text-black"/>}
-                </div>
+
+                  {/* Separador (aparece se não for o último item) */}
+                  {index < matches.length - 1 && (
+                    <BreadcrumbSeparator className="breadcrumb-separator" />
+                  )}
+                </React.Fragment>
               );
             })}
           </BreadcrumbList>
         </Breadcrumb>
+      </div>
 
-        <div className="user-container">
-          <h1
-            className="text-4xl"
-          >{userName ? capitalizeFirstLetter(userName) : "Carregando..."}</h1>
+      {/* Nome do usuário: só aparece em telas maiores que 768px */}
+      {userName && (
+        <div className="userName-container">
+          <span className="userName-text">{userName}</span>
         </div>
+      )}
+
+      {/* Botão Hamburger (somente para mobile) */}
+      <button className="hamburger" onClick={onToggleMenu}>
+        <svg
+          className="hamburger-icon"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth={2}
+          viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
     </HeaderStyle>
   );
 }
@@ -81,24 +109,83 @@ const HeaderStyle = styled.div`
   height: 100%;
   width: 100%;
   background-color: white;
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Sombra forte apenas na parte inferior */
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   justify-content: space-between;
-  padding: 25px;
   align-items: center;
+  padding: 25px;
 
-  .user-container {
-    margin-left: auto;
-    margin-right: 2%;
-    font-size: 1.1rem;
-    font-weight: 500;
+  .breadcrumb-container {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 10px;
   }
 
-  .user-container p {
+  .breadcrumb-horizontal {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .breadcrumb-link {
+    font-size: 1.4rem;
     font-weight: 500;
-    color: rgba(0, 0, 0, 0.7);
+    color: #333;
+    text-decoration: none;
+    
+    /* Aumenta no desktop (>= 1024px) */
+    @media (min-width: 1024px) {
+      font-size: 1.8rem;
+    }
+  }
+
+  .breadcrumb-separator {
+    font-size: 1.4rem;
+    color: #777;
+
+    @media (min-width: 1024px) {
+      font-size: 1.8rem;
+    }
+  }
+
+  .userName-container {
+    margin-right: 16px;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .userName-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+
+    /* Aumenta no desktop (>= 1024px) */
+    @media (min-width: 1024px) {
+      font-size: 1.8rem;
+    }
+  }
+
+  /* Botão hamburger (escondido em desktop) */
+  .hamburger {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    @media (max-width: 768px) {
+      display: block;
+    }
+  }
+
+  .hamburger-icon {
+    width: 28px;
+    height: 28px;
+    color: #333;
+
+    @media (max-width: 768px) {
+      width: 24px;
+      height: 24px;
+    }
   }
 `;

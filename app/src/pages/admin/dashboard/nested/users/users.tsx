@@ -78,35 +78,35 @@ export const Users: React.FC = () => {
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
-        <p className="text-4xl text-gray-600">Carregando usuários...</p>
+        <p className="text-2xl sm:text-4xl text-gray-600">Carregando usuários...</p>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="text-red-600 text-center mt-10 text-4xl">
+      <div className="text-red-600 text-center mt-10 text-2xl sm:text-4xl">
         Erro: {error}
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-[8vh]">
-      <h1 className="text-6xl font-bold mb-12">Lista de usuários</h1>
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-8">
+      <h1 className="text-3xl sm:text-6xl font-bold mb-6 sm:mb-12">Lista de usuários</h1>
 
       {users.length === 0 ? (
-        <p className="text-4xl text-gray-600 text-center">
+        <p className="text-2xl sm:text-4xl text-gray-600 text-center">
           Nenhum usuário encontrado.
         </p>
       ) : (
-        <div className="space-y-8">
+        <div className="space-y-4 sm:space-y-8">
           {users.map((user) => (
             <div
               key={user._id} // Alterado para _id
-              className="w-[100vh] transition-all duration-300 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-8 flex flex-col md:flex-row justify-between items-start md:items-center hover:shadow-2xl"
+              className="w-full lg:w-[100vh] transition-all duration-300 bg-white border-2 border-gray-300 rounded-lg shadow-lg p-4 sm:p-8 flex flex-col md:flex-row justify-between items-start md:items-center hover:shadow-2xl"
             >
-              <div className="text-2xl md:text-3xl mb-4 md:mb-0">
+              <div className="text-xl sm:text-2xl md:text-3xl mb-4 md:mb-0">
                 <p>
                   <strong>Nome:</strong> {user.name || "Nome não informado"}
                 </p>
@@ -114,30 +114,30 @@ export const Users: React.FC = () => {
                   <strong>Email:</strong> {user.email}
                 </p>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2 sm:gap-4">
                 {pendingDelete === user._id ? ( // Alterado para _id
                   <>
                     <button
-                      className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-2xl md:text-3xl px-6 py-3 rounded-lg flex items-center gap-2"
+                      className="bg-orange-500 hover:bg-orange-600 text-white font-bold text-lg sm:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center gap-2"
                       onClick={() => handleDelete(user._id)} // Alterado para _id
                     >
-                      <Trash size={24} />
+                      <Trash size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
                       Confirmar
                     </button>
                     <button
-                      className="bg-gray-500 hover:bg-gray-600 text-white font-bold text-2xl md:text-3xl px-6 py-3 rounded-lg flex items-center gap-2"
+                      className="bg-gray-500 hover:bg-gray-600 text-white font-bold text-lg sm:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center gap-2"
                       onClick={handleCancelDelete}
                     >
-                      <X size={24} />
+                      <X size={20} className="w-5 h-5 sm:w-6 sm:h-6" />
                       Cancelar
                     </button>
                   </>
                 ) : (
                   <button
-                    className="bg-red-500 hover:bg-red-600 text-white font-bold text-2xl md:text-3xl px-6 py-3 rounded-lg flex items-center gap-4"
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold text-lg sm:text-2xl px-4 sm:px-6 py-2 sm:py-3 rounded-lg flex items-center gap-2 sm:gap-4"
                     onClick={() => handleDelete(user._id)} // Alterado para _id
                   >
-                    <Trash size={30} />
+                    <Trash size={24} className="w-6 h-6 sm:w-8 sm:h-8" />
                     Excluir
                   </button>
                 )}

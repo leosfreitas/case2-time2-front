@@ -124,29 +124,28 @@ const HeaderStyle = styled.div`
   }
 
   .breadcrumb-link {
-    font-size: 1.4rem;
+    font-size: 1.6rem; /* Tamanho fixo para todas as telas */
     font-weight: 500;
     color: #333;
     text-decoration: none;
   }
 
   .breadcrumb-separator {
-    font-size: 1.4rem;
+    font-size: 1.6rem; /* Mantém o mesmo tamanho sempre */
     color: #777;
   }
 
-  /* 
-    Contêiner que mostra o nome do usuário (userName)
-    Aqui forçamos a ocultar em telas <= 768px
-  */
+  /* Nome do usuário visível apenas em telas maiores */
   .userName-container {
     margin-right: 16px;
+
     @media (max-width: 768px) {
-      display: none;
+      display: none; /* Esconde o nome do usuário em telas pequenas */
     }
   }
+
   .userName-text {
-    font-size: 1.2rem;
+    font-size: 1.6rem; /* Nome do usuário sempre do mesmo tamanho */
     font-weight: 600;
     color: #333;
   }
