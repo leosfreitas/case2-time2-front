@@ -59,14 +59,13 @@ export const Contact = () => {
     <>
       <Header />
 
-      {/* Espaço para não sobrepor o header fixo */}
       <div className="max-w-6xl mx-auto px-6 md:pt-[25vh] pt-[15vh] pb-[20vh] md:pb-[20vh]">
         <h1 className="text-4xl md:text-6xl font-bold mb-12 text-center sm:text-left">
           Perguntas mais recentes
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-          {/* Coluna de FAQ */}
+          {/* FAQ Column */}
           <div className="col-span-2 space-y-6">
             {sacs.map((sac, index) => (
               <details
@@ -74,7 +73,6 @@ export const Contact = () => {
                 className="bg-white border-2 border-gray-300 rounded-lg shadow-lg p-6 cursor-pointer text-lg md:text-2xl"
                 open={expandedIndex === index}
                 onClick={(e) => {
-                  // Impede o <details> de expandir/fechar automaticamente
                   e.preventDefault();
                   setExpandedIndex(expandedIndex === index ? null : index);
                 }}
@@ -90,9 +88,9 @@ export const Contact = () => {
             ))}
           </div>
 
-          {/* Terceira coluna: Caixa "Você tem mais perguntas?" */}
-          <div className="col-span-1 flex justify-center">
-            <div className="bg-white shadow-lg border-2 border-gray-300 rounded-lg p-8 flex flex-col items-center text-center transition-all duration-300 w-full max-w-sm mx-auto sm:mx-0">
+          {/* Questions box - hidden on mobile */}
+          <div className="hidden md:flex col-span-1 justify-center">
+            <div className="bg-white shadow-lg border-2 border-gray-300 rounded-lg p-8 flex flex-col items-center text-center transition-all duration-300 w-full max-w-sm">
               <Chat className="text-4xl text-black w-16 h-16 md:w-20 md:h-20" />
               <h2 className="text-2xl md:text-3xl mt-3 font-bold">
                 Você tem mais perguntas?
@@ -109,9 +107,19 @@ export const Contact = () => {
             </div>
           </div>
         </div>
+
+        {/* Mobile button */}
+        <div className="md:hidden mt-8">
+          <Button
+            className="w-full bg-[#0097e0] text-white text-base py-3"
+            onClick={() => setIsDialogOpen(true)}
+          >
+            Perguntar
+          </Button>
+        </div>
       </div>
 
-      {/* Dialog com tamanho reduzido e responsivo */}
+      {/* Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="w-[90%] max-w-[95%] sm:max-w-md p-4 sm:p-6 bg-white rounded-lg shadow-lg">
           <DialogHeader>

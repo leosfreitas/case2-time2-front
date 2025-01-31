@@ -224,6 +224,18 @@ const HeaderStyles = styled.header`
     width: 90%;
     max-width: 1600px;
     margin: 0 auto;
+
+    /* Ajustes para telas menores que 1100px */
+    @media (max-width: 1100px) {
+      padding: 16px 24px;
+      width: 95%;
+    }
+
+    /* Ajustes para telas menores que 900px */
+    @media (max-width: 900px) {
+      padding: 12px 16px;
+      width: 95%;
+    }
   }
 
   .logo {
@@ -231,6 +243,16 @@ const HeaderStyles = styled.header`
       font-size: 42px;
       font-weight: bold;
       color: white;
+
+      /* Ajustes para telas menores que 1100px */
+      @media (max-width: 1100px) {
+        font-size: 32px;
+      }
+
+      /* Ajustes para telas menores que 900px */
+      @media (max-width: 900px) {
+        font-size: 28px;
+      }
     }
   }
 
@@ -248,6 +270,16 @@ const HeaderStyles = styled.header`
 
       &.active {
         color: #4fc3f7;
+      }
+
+      /* Ajustes para telas menores que 1100px */
+      @media (max-width: 1100px) {
+        font-size: 24px;
+      }
+
+      /* Ajustes para telas menores que 900px */
+      @media (max-width: 900px) {
+        font-size: 20px;
       }
     }
 
@@ -270,6 +302,18 @@ const HeaderStyles = styled.header`
       cursor: pointer;
       border: none;
       transition: all 0.3s ease;
+
+      /* Ajustes para telas menores que 1100px */
+      @media (max-width: 1100px) {
+        padding: 10px 20px;
+        font-size: 20px;
+      }
+
+      /* Ajustes para telas menores que 900px */
+      @media (max-width: 900px) {
+        padding: 8px 16px;
+        font-size: 18px;
+      }
     }
 
     .login {
