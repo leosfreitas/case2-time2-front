@@ -13,9 +13,9 @@ export const Services = () => {
     return (
         <>
             <Header />
-            {/* Banner com imagem de fundo e botão para rolar */}
+            {/* Banner com imagem de fundo e botão para rolar (oculto em mobile) */}
             <div
-                className="relative h-[100vh] flex flex-col justify-between items-center text-center text-white"
+                className="relative h-[100vh] flex flex-col justify-between items-center text-center text-white hidden md:flex"
                 style={{
                     backgroundImage: "url('/images/service-pic.png')",
                     backgroundSize: "cover",
@@ -43,7 +43,7 @@ export const Services = () => {
             </div>
 
             {/* Seção de serviços */}
-            <section ref={scrollToSection} className="py-20 bg-gray-100">
+            <section ref={scrollToSection} className="py-20 bg-gray-100 mt-[5vh] md:mt-0">
                 <div className="max-w-7xl mx-auto px-8">
                     <h2 className="text-6xl font-bold text-center mb-12 text-[#0D2C40]">
                         Nossos Serviços

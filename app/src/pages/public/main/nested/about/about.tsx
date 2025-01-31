@@ -13,33 +13,39 @@ export const About = () => {
     return (
         <>
             <Header />
-            <div className="relative h-[90vh] flex flex-col justify-between" id="home">
-                <video
-                    src="/videos/homepage.mp4"
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    className="absolute top-0 left-0 w-full h-full object-cover z-0"
-                />
-                <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-1"></div>
-                <div className="relative z-20 flex flex-col items-center justify-center flex-grow px-4 mr-[80vh] mt-[10vh]">
-                    <div className="text-white">
-                        <h1 className="text-8xl font-bold leading-tight">Conectando</h1>
-                        <h1 className="text-8xl font-bold leading-tight">pessoas através</h1>
-                        <h1 className="text-8xl font-bold leading-tight">da tecnologia</h1>
+
+            {/* Hero - só aparece em telas md ou maiores */}
+            <div className="hidden md:block">
+                <div className="relative h-[90vh] flex flex-col justify-between" id="home">
+                    <video
+                        src="/videos/homepage.mp4"
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        className="absolute top-0 left-0 w-full h-full object-cover z-0"
+                    />
+                    <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-40 z-1"></div>
+                    <div className="relative z-20 flex flex-col items-center justify-center flex-grow px-4 mr-[80vh] mt-[10vh]">
+                        <div className="text-white">
+                            <h1 className="text-8xl font-bold leading-tight">Conectando</h1>
+                            <h1 className="text-8xl font-bold leading-tight">pessoas através</h1>
+                            <h1 className="text-8xl font-bold leading-tight">da tecnologia</h1>
+                        </div>
+                    </div>
+                    <div className="relative z-20 flex justify-center mb-5">
+                        <CaretDoubleDown size={64} color="white" onClick={handleScroll} />
                     </div>
                 </div>
-                <div className="relative z-20 flex justify-center mb-5">
-                    <CaretDoubleDown size={64} color="white" onClick={handleScroll} />
-                </div>
+                <div className="bg-[linear-gradient(to_right,#0D2C40,black)] h-[10vh] w-full"></div>
             </div>
 
-            <div className="bg-[linear-gradient(to_right,#0D2C40,black)] h-[10vh] w-full"></div>
-
+            {/* A partir daqui fica visível em qualquer tamanho de tela */}
+            {/* Se quiser que isto só apareça em telas menores, você pode usar block md:hidden */}
+            
             {/* Seção da história */}
-            <section ref={scrollToSection} className="bg-gray-100 py-20 px-12">
-                <h2 className="text-6xl font-bold text-center mb-12">Há mais de 15 anos no mercado</h2>
+            <section ref={scrollToSection} className="bg-gray-100 py-20 px-12 mt-[5vh] md:mt-0">
+            <h2 className="text-6xl font-bold text-center mb-12">Há mais de 15 anos no mercado</h2>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="bg-[#0D2C40] p-8 shadow-lg rounded-lg text-center text-white">
                         <h3 className="text-4xl font-bold mb-6">2010</h3>

@@ -35,50 +35,152 @@ export const PasswordReset = () => {
   };
 
   return (
-      <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[50vh] h-auto space-y-8">
-          <h2 className="text-5xl font-extrabold text-center text-white">
-            Redefinir Senha
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div>
-              <label htmlFor="password" className="block text-xl font-semibold text-white">
-                Nova Senha
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                style={{ fontSize: '1.5rem' }}
-                placeholder="Digite sua nova senha"
-                className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
-              />
-            </div>
-            <div>
-              <label htmlFor="confirmPassword" className="block text-xl font-semibold text-white">
-                Confirmar Nova Senha
-              </label>
-              <input
-                id="confirmPassword"
-                name="confirmPassword"
-                type="password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
-                required
-                style={{ fontSize: '1.5rem' }}
-                placeholder="Confirme sua nova senha"
-                className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-[#0D2C40] text-white py-5 text-2xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
-            >
-              Redefinir Senha
-            </button>
-          </form>
+    <div
+      className="
+        bg-white bg-opacity-10
+        backdrop-blur-md
+        rounded-xl
+        shadow-lg
+
+        p-4
+        sm:p-6
+        md:p-8
+
+        w-full
+        max-w-[300px]
+        sm:max-w-[400px]
+        md:max-w-[500px]
+
+        h-auto
+
+        flex
+        flex-col
+        items-center
+        space-y-6
+      "
+    >
+      <h2
+        className="
+          text-2xl
+          sm:text-3xl
+          md:text-5xl
+          font-extrabold
+          text-center
+          text-white
+        "
+      >
+        Redefinir Senha
+      </h2>
+
+      {/* Formulário ocupando toda a largura do container */}
+      <form
+        onSubmit={handleSubmit}
+        className="
+          w-full
+          flex
+          flex-col
+          space-y-4
+          sm:space-y-6
+          md:space-y-8
+        "
+      >
+        <div>
+          <label
+            htmlFor="password"
+            className="
+              block
+              text-lg
+              sm:text-xl
+              md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
+            Nova Senha
+          </label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            placeholder="Digite sua nova senha"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-3
+              text-base sm:text-lg md:text-lg
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring
+              focus:ring-blue-200
+            "
+          />
         </div>
+
+        <div>
+          <label
+            htmlFor="confirmPassword"
+            className="
+              block
+              text-lg
+              sm:text-xl
+              md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
+            Confirmar Nova Senha
+          </label>
+          <input
+            id="confirmPassword"
+            name="confirmPassword"
+            type="password"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            required
+            placeholder="Confirme sua nova senha"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-3
+              text-base sm:text-lg md:text-lg
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring
+              focus:ring-blue-200
+            "
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="
+            w-full
+            bg-[#0D2C40]
+            text-white
+            py-2 sm:py-3 md:py-4
+            text-lg sm:text-xl md:text-2xl
+            font-bold
+            rounded-lg
+            hover:bg-[#1D4A7C]
+            transition
+            duration-300
+            ease-in-out
+          "
+        >
+          Redefinir Senha
+        </button>
+      </form>
+    </div>
   );
 };

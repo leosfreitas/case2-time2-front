@@ -5,7 +5,7 @@ import { registerRequest } from "./api/register";
 
 export const UserRegister = () => {
   const [formData, setFormData] = useState({
-    tipo: "Pessoa", // Valor inicial
+    tipo: "Pessoa",
     name: "",
     email: "",
     password: "",
@@ -21,15 +21,6 @@ export const UserRegister = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
-  };
-
-  const toggleTipo = () => {
-    setFormData((prevData) => ({
-      ...prevData,
-      tipo: prevData.tipo === "Pessoa" ? "Empresa" : "Pessoa",
-      cpf: "",
-      cnpj: "",
-    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -73,32 +64,86 @@ export const UserRegister = () => {
   };
 
   return (
-    <div className="bg-white bg-opacity-10 backdrop-blur-md rounded-2xl shadow-2xl p-10 w-[70vh] h-auto space-y-8">
-      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-8">
+    <div
+      className="
+        bg-white bg-opacity-10
+        backdrop-blur-md
+        rounded-xl
+        shadow-lg
+
+        /* Espaçamento conforme breakpoints */
+        p-4
+        sm:p-6
+        md:p-8
+        lg:p-10
+
+        /* Ajustando largura máxima */
+        w-full
+        max-w-[300px]   /* celular */
+        sm:max-w-[400px] /* tablet */
+        md:max-w-[600px] /* desktop médio */
+        lg:max-w-[700px] /* desktop maior */
+
+        h-auto
+        space-y-6
+      "
+    >
+      <form
+        onSubmit={handleSubmit}
+        className="
+          grid 
+          grid-cols-1 sm:grid-cols-2
+          gap-4 sm:gap-6 md:gap-8
+        "
+      >
         <div className="col-span-2 text-center">
-          <h2 className="text-5xl font-extrabold text-center text-white mb-4">
+          <h2
+            className="
+              text-2xl
+              sm:text-3xl
+              md:text-4xl
+              lg:text-5xl
+              font-extrabold
+              text-white
+              mb-4
+            "
+          >
             Selecionar Cadastro:
           </h2>
-          <div className="flex justify-center gap-4">
+          <div className="flex justify-center gap-2 sm:gap-4">
             <button
               type="button"
               onClick={() => setFormData({ ...formData, tipo: "Pessoa" })}
-              className={`px-6 py-3 rounded-lg text-xl font-bold transition ${
-                formData.tipo === "Pessoa"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-800 hover:bg-gray-400"
-              }`}
+              className={`
+                px-4 sm:px-6 py-2 sm:py-3
+                rounded-lg
+                text-base sm:text-lg md:text-xl
+                font-bold
+                transition
+                ${
+                  formData.tipo === "Pessoa"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-800 hover:bg-gray-400"
+                }
+              `}
             >
               Pessoa
             </button>
             <button
               type="button"
               onClick={() => setFormData({ ...formData, tipo: "Empresa" })}
-              className={`px-6 py-3 rounded-lg text-xl font-bold transition ${
-                formData.tipo === "Empresa"
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300 text-gray-800 hover:bg-gray-400"
-              }`}
+              className={`
+                px-4 sm:px-6 py-2 sm:py-3
+                rounded-lg
+                text-base sm:text-lg md:text-xl
+                font-bold
+                transition
+                ${
+                  formData.tipo === "Empresa"
+                    ? "bg-blue-500 text-white"
+                    : "bg-gray-300 text-gray-800 hover:bg-gray-400"
+                }
+              `}
             >
               Empresa
             </button>
@@ -107,7 +152,15 @@ export const UserRegister = () => {
 
         {/* Campo Nome */}
         <div>
-          <label htmlFor="name" className="block text-xl font-semibold text-white">
+          <label
+            htmlFor="name"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
             Nome Completo
           </label>
           <input
@@ -117,15 +170,34 @@ export const UserRegister = () => {
             value={formData.name}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
-            placeholder="Digite seu nome completo"
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            placeholder="Digite seu nome"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
         {/* Campo Email */}
         <div>
-          <label htmlFor="email" className="block text-xl font-semibold text-white">
+          <label
+            htmlFor="email"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
             Email
           </label>
           <input
@@ -135,36 +207,73 @@ export const UserRegister = () => {
             value={formData.email}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
             placeholder="Digite seu email"
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
         {/* Campo CPF ou CNPJ */}
         <div>
           <label
-            htmlFor={formData.tipo === "Pessoa" ? "cpf" : "cnpj"}
-            className="block text-xl font-semibold text-white"
+            htmlFor="document"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
           >
             {formData.tipo === "Pessoa" ? "CPF" : "CNPJ"}
           </label>
           <input
-            id={formData.tipo === "Pessoa" ? "cpf" : "cnpj"}
+            id="document"
             name={formData.tipo === "Pessoa" ? "cpf" : "cnpj"}
             type="text"
             value={formData.tipo === "Pessoa" ? formData.cpf : formData.cnpj}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
-            placeholder={`Digite seu ${formData.tipo === "Pessoa" ? "CPF" : "CNPJ"}`}
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            placeholder={`Digite seu ${
+              formData.tipo === "Pessoa" ? "CPF" : "CNPJ"
+            }`}
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
         {/* Campo Telefone */}
         <div>
-          <label htmlFor="phone" className="block text-xl font-semibold text-white">
+          <label
+            htmlFor="phone"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
             Telefone
           </label>
           <input
@@ -174,15 +283,34 @@ export const UserRegister = () => {
             value={formData.phone}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
             placeholder="Digite seu telefone"
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
         {/* Campo Senha */}
         <div>
-          <label htmlFor="password" className="block text-xl font-semibold text-white">
+          <label
+            htmlFor="password"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
             Senha
           </label>
           <input
@@ -192,15 +320,34 @@ export const UserRegister = () => {
             value={formData.password}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
             placeholder="Digite sua senha"
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
         {/* Campo Confirmar Senha */}
         <div>
-          <label htmlFor="confirmPassword" className="block text-xl font-semibold text-white">
+          <label
+            htmlFor="confirmPassword"
+            className="
+              block
+              text-lg sm:text-xl md:text-2xl
+              font-semibold
+              text-white
+            "
+          >
             Confirmar Senha
           </label>
           <input
@@ -210,19 +357,39 @@ export const UserRegister = () => {
             value={formData.confirmPassword}
             onChange={handleChange}
             required
-            style={{ fontSize: '1.5rem' }}
             placeholder="Digite novamente sua senha"
-            className="w-full mt-2 rounded-lg border border-gray-300 px-4 py-3 text-lg text-gray-800 placeholder-gray-500 focus:border-blue-500 focus:ring focus:ring-blue-200"
+            className="
+              w-full
+              mt-2
+              rounded-lg
+              border border-gray-300
+              px-4
+              py-2 sm:py-3 md:py-4
+              text-base sm:text-lg md:text-xl
+              text-gray-800
+              placeholder-gray-500
+              focus:border-blue-500
+              focus:ring focus:ring-blue-200
+            "
           />
         </div>
 
-        {/* Erro */}
-        {error && <p className="text-xl text-red-600 text-center col-span-2">{error}</p>}
-
-        <div className="col-span-2 mt-6">
+        {/* Botão de Cadastro */}
+        <div className="col-span-2">
           <button
-            type="submit"
-            className="w-full bg-[#0D2C40] text-white py-5 text-2xl font-bold rounded-lg hover:bg-[#1D4A7C] transition duration-300 ease-in-out"
+            className="
+              w-full
+              bg-[#0D2C40]
+              text-white
+              py-2 sm:py-3 md:py-4 lg:py-5
+              text-lg sm:text-xl md:text-2xl lg:text-3xl
+              font-bold
+              rounded-lg
+              hover:bg-[#1D4A7C]
+              transition
+              duration-300
+              ease-in-out
+            "
           >
             Cadastrar
           </button>

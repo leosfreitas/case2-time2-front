@@ -51,9 +51,9 @@ export const Home = () => {
   const [companyPlans, setCompanyPlans] = useState<any[]>([]);
   const [clientPlans, setClientPlans] = useState<any[]>([]);
 
-  // Toggle "empresas" ou "clientes" (quando NÃO logado)
-  const [selectedType, setSelectedType] = useState<"empresas" | "clientes">(
-    "empresas"
+  // Toggle "empresas" ou "Pessoa" (quando NÃO logado)
+  const [selectedType, setSelectedType] = useState<"empresas" | "Pessoa">(
+    "Pessoa"
   );
 
   // Scroll
@@ -192,7 +192,7 @@ export const Home = () => {
     displayedPlans.slice(i * itemsPerPage, i * itemsPerPage + itemsPerPage)
   );
 
-  // Se trocar a aba (empresas/clientes), reseta página e pacote selecionado
+  // Se trocar a aba (empresas/Pessoa), reseta página e pacote selecionado
   useEffect(() => {
     setCurrentPage(0);
     setSelectedPacote(null);
@@ -353,6 +353,17 @@ export const Home = () => {
             <div className="flex space-x-4 mb-4">
               <button
                 className={`px-12 py-6 rounded-md ${
+                  selectedType === "Pessoa"
+                    ? "bg-blue-500 text-white font-bold"
+                    : "bg-gray-200 text-gray-800"
+                }`}
+                style={{ fontSize: "1.5rem" }}
+                onClick={() => setSelectedType("Pessoa")}
+              >
+                Pessoa
+              </button>
+              <button
+                className={`px-12 py-6 rounded-md ${
                   selectedType === "empresas"
                     ? "bg-blue-500 text-white font-bold"
                     : "bg-gray-200 text-gray-800"
@@ -361,17 +372,6 @@ export const Home = () => {
                 onClick={() => setSelectedType("empresas")}
               >
                 Empresas
-              </button>
-              <button
-                className={`px-12 py-6 rounded-md ${
-                  selectedType === "clientes"
-                    ? "bg-blue-500 text-white font-bold"
-                    : "bg-gray-200 text-gray-800"
-                }`}
-                style={{ fontSize: "1.5rem" }}
-                onClick={() => setSelectedType("clientes")}
-              >
-                Clientes
               </button>
             </div>
           )}
