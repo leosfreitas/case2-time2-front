@@ -341,30 +341,38 @@ export const Home = () => {
       <Header />
 
       {/* Banner - apenas em telas >= md */}
-      <div className="hidden md:block relative h-[80vh] bg-[#0090dc] flex items-center justify-center border-b-2 border-gray-300 shadow-xl">
-        {/* Ícone grandão à esquerda */}
-        <div className="absolute left-[25vh] top-[45vh] -translate-y-1/2 text-white z-0 pointer-events-none">
-          <CellSignalFull className="text-[35rem]" />
-        </div>
+      <div
+          className="hidden md:block relative h-[95vh] flex items-center justify-center border-b-2 border-gray-300 shadow-xl overflow-hidden"
+        >
+          {/* 🔹 Adicionando overlay escuro para contraste */}
+          <div className="absolute top-0 left-0 w-full h-full bg-black opacity-30 z-0"></div>
 
-        {/* Texto */}
-        <div className="absolute top-1/3 left-2/3 transform -translate-x-1/2 -translate-y-1/2 text-white text-left mt-[15vh] z-10">
-          <h2 className="text-lg font-light text-3xl">Lançamento</h2>
-          <h1 className="text-5xl font-bold tracking-wide">
-            Chegou o novo{" "}
-            <span className="font-extrabold text-6xl">Teleconnect 5G!</span>
-          </h1>
-          <p className="text-md mt-2 text-3xl">Não perca tempo e assine já.</p>
-          <div className="mt-[15vh]">
-            <Button
-              className="bg-[#cb2166] text-white hover:bg-pink-600 px-12 py-6 text-2xl"
-              onClick={scrollToPackages}
-            >
-              Ver pacotes
-            </Button>
+          {/* 🔹 Imagem de fundo melhor posicionada */}
+          <img
+            src="/images/foto-home.jpg"
+            alt="Banner"
+            className="absolute top-0 left-0 w-full h-full object-cover object-center z-0"
+          />
+
+          {/* 🔹 Caixa de texto com fundo semi-transparente */}
+          <div className="absolute top-[45vh] left-3/4 transform -translate-x-1/2 -translate-y-1/2 text-white text-left bg-black bg-opacity-50 p-8 rounded-lg shadow-lg max-w-3xl z-10">
+            <h2 className="text-lg font-light text-3xl text-gray-300">Lançamento</h2>
+            <h1 className="text-5xl font-bold tracking-wide">
+              Chegou o novo{" "}
+              <span className="font-extrabold text-6xl text-[#01abe9]">Teleconnect 5G!</span>
+            </h1>
+            <p className="text-md mt-2 text-3xl text-gray-200">Não perca tempo e assine já.</p>
+            <div className="mt-8">
+              {/* 🔹 Melhorando o botão */}
+              <Button
+                className="bg-[#cb2166] text-white hover:bg-pink-500 px-14 py-6 text-3xl font-bold rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+                onClick={scrollToPackages}
+              >
+                Ver pacotes
+              </Button>
+            </div>
           </div>
         </div>
-      </div>
 
       {/* SEÇÃO DOS PACOTES (em mobile, já aparece sem banner) */}
       <div className="text-2xl">
