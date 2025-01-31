@@ -1,8 +1,8 @@
-import { createRoot } from 'react-dom/client'
-import { RouterProvider } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
-import { router } from './router'
-import './styles/index.css'
+import { createRoot } from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { router } from './router';
+import './styles/index.css';
 
 createRoot(document.getElementById('root')!).render(
   <>
@@ -11,10 +11,12 @@ createRoot(document.getElementById('root')!).render(
       position="bottom-right"
       toastOptions={{
         style: {
-          fontSize: '1.5rem', // Aumenta o tamanho do texto
-          fontWeight: 'bold', // Deixa o texto em negrito
-          padding: '2.5rem', // Aumenta o espaço dentro do toast
+          fontSize: '1rem', // Tamanho reduzido para telas pequenas
+          fontWeight: 'bold',
+          padding: '1.5rem', // Padding menor para telas pequenas
         },
+        // Ajusta o tamanho para telas maiores
+        className: 'sm:text-lg sm:p-6',
       }}
     />
   </>

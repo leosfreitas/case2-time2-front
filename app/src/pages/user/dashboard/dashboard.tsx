@@ -1,26 +1,37 @@
+import React, { useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
+
 import { Header } from './components/header';
 import { Menu } from './components/menu';
-import styled from 'styled-components';
+
 import { Home } from './nested/home/homepage';
 import { Profile } from './nested/profile/profile';
 import { Contato } from './nested/contato/contato';
 import { Pacotes } from './nested/pacotes/pacotes';
 
 export const Dashboard = () => {
+    // Estado para controlar se o menu mobile está aberto ou fechado
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+    // Função de toggle para abrir/fechar o menu no mobile
+    const toggleMobileMenu = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
     return (
         <DashboardStyles>
-            <Header/>
-            <Menu/>
+            <Header onToggleMenu={toggleMobileMenu} />
+            <Menu isMobileMenuOpen={isMobileMenuOpen} />
             <Routes>
-                <Route path="home" element={<Home />}/>
+                <Route path="home" element={<Home />} />
                 <Route path="profile" element={<Profile />} />
                 <Route path="contato" element={<Contato />} />
                 <Route path="pacotes" element={<Pacotes />} />
             </Routes>
         </DashboardStyles>
-    )
-}
+    );
+};
 
 const DashboardStyles = styled.div`
     display: grid;
@@ -32,10 +43,17 @@ const DashboardStyles = styled.div`
     background-color: #eff3f7;
 
     @media (max-width: 768px) {
-        grid-template-columns: 250px 1fr; /* Sidebar menor em telas médias */
+        /* Em telas menores, 
+           o header fica em cima e o conteúdo embaixo (apenas 1 coluna),
+           e o Menu é controlado pela posição fixa dentro do próprio menu.tsx
+        */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
     }
 
     @media (max-width: 480px) {
-        grid-template-columns: 200px 1fr; /* Sidebar ainda menor em telas pequenas */
+        /* Mantemos 1 coluna e 2 linhas */
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr;
     }
 `;
