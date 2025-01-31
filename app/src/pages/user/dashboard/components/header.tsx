@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useMatches } from "react-router-dom";
 import styled from "styled-components";
 import { getUserName } from "./api/header";
@@ -18,22 +18,20 @@ interface HeaderProps {
 
 export function Header({ onToggleMenu }: HeaderProps) {
   const matches = useMatches();
+  const [userName, setUserName] = useState<string | null>(null);
 
-  // Removido o estado do userName e o fetch, já que não exibiremos mais o nome
-  // Caso precise manter a lógica, apenas comente:
-  // const [userName, setUserName] = useState<string | null>(null);
-
-  // useEffect(() => {
-  //   const fetchUserName = async () => {
-  //     try {
-  //       const response = await getUserName();
-  //       setUserName(response.user_name);
-  //     } catch (error) {
-  //       console.error("Erro ao obter nome do usuário:", error);
-  //     }
-  //   };
-  //   fetchUserName();
-  // }, []);
+  useEffect(() => {
+    // Reintroduzindo a lógica de obter o nome do usuário
+    async function fetchUserNameData() {
+      try {
+        const response = await getUserName();
+        setUserName(response.user_name);
+      } catch (error) {
+        console.error("Erro ao obter nome do usuário:", error);
+      }
+    }
+    fetchUserNameData();
+  }, []);
 
   const routeLabels: Record<string, string> = {
     dashboard: "Dashboard",
@@ -43,7 +41,6 @@ export function Header({ onToggleMenu }: HeaderProps) {
     contato: "Contato",
   };
 
-  // Funcionalidade de capitalizar (mantida caso queira usar em label)
   const capitalizeFirstLetter = (str: string): string =>
     str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -52,7 +49,6 @@ export function Header({ onToggleMenu }: HeaderProps) {
       {/* Breadcrumbs horizontal */}
       <div className="breadcrumb-container">
         <Breadcrumb>
-          {/* Forçamos exibição em linha */}
           <BreadcrumbList className="breadcrumb-horizontal">
             {matches.map((match, index) => {
               const key = match.pathname.split("/").pop() || "";
@@ -81,6 +77,14 @@ export function Header({ onToggleMenu }: HeaderProps) {
         </Breadcrumb>
       </div>
 
+      {/* Nome do usuário: só aparece em telas maiores que 768px */}
+      {userName && (
+        <div className="userName-container">
+          {/* Ajuste de estilo livre */}
+          <span className="userName-text">{userName}</span>
+        </div>
+      )}
+
       {/* Botão Hamburger (somente para mobile) */}
       <button className="hamburger" onClick={onToggleMenu}>
         <svg
@@ -107,21 +111,18 @@ const HeaderStyle = styled.div`
   align-items: center;
   padding: 25px;
 
-  /* Container geral do breadcrumb */
   .breadcrumb-container {
     flex: 1;
     display: flex;
     align-items: center;
   }
 
-  /* Forçamos o breadcrumb ficar em linha (horizontal) */
   .breadcrumb-horizontal {
     display: flex;
     align-items: center;
-    gap: 1rem; /* Espaço entre cada item */
+    gap: 1rem;
   }
 
-  /* Ajusta a cor/tamanho de cada link do breadcrumb */
   .breadcrumb-link {
     font-size: 1.4rem;
     font-weight: 500;
@@ -132,6 +133,22 @@ const HeaderStyle = styled.div`
   .breadcrumb-separator {
     font-size: 1.4rem;
     color: #777;
+  }
+
+  /* 
+    Contêiner que mostra o nome do usuário (userName)
+    Aqui forçamos a ocultar em telas <= 768px
+  */
+  .userName-container {
+    margin-right: 16px;
+    @media (max-width: 768px) {
+      display: none;
+    }
+  }
+  .userName-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
   }
 
   /* Botão hamburger (escondido em desktop) */
